@@ -1,0 +1,3000 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PulseAI – Customer Churn Intelligence Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════════════
+   TOKENS & THEME
+═══════════════════════════════════════════════════════════ */
+:root {
+  --indigo: #6366F1;
+  --indigo-light: #818CF8;
+  --indigo-dark: #4F46E5;
+  --indigo-50: #EEF2FF;
+  --indigo-100: #E0E7FF;
+  --emerald: #22C55E;
+  --emerald-light: #4ADE80;
+  --emerald-50: #F0FDF4;
+  --emerald-100: #DCFCE7;
+  --red: #EF4444;
+  --red-light: #F87171;
+  --red-50: #FEF2F2;
+  --red-100: #FEE2E2;
+  --amber: #F59E0B;
+  --amber-light: #FCD34D;
+  --amber-50: #FFFBEB;
+  --amber-100: #FEF3C7;
+  --blue: #3B82F6;
+  --blue-50: #EFF6FF;
+  --purple: #A855F7;
+  --purple-50: #FAF5FF;
+
+  --bg: #F8F9FC;
+  --bg-2: #F1F3F9;
+  --surface: #FFFFFF;
+  --surface-2: #F8F9FC;
+  --surface-3: #F1F3F9;
+  --glass: rgba(255,255,255,0.85);
+  --glass-border: rgba(255,255,255,0.6);
+  --border: #E5E7EB;
+  --border-2: #D1D5DB;
+  --text: #111827;
+  --text-2: #374151;
+  --text-3: #6B7280;
+  --text-4: #9CA3AF;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  --shadow: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.05);
+  --shadow-md: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.05);
+  --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.08), 0 8px 10px -6px rgba(0,0,0,0.04);
+  --shadow-indigo: 0 8px 25px -8px rgba(99,102,241,0.4);
+  --r: 12px;
+  --r-lg: 18px;
+  --r-xl: 24px;
+  --sidebar-w: 240px;
+}
+
+[data-theme="dark"] {
+  --bg: #0F1117;
+  --bg-2: #161B27;
+  --surface: #1A2035;
+  --surface-2: #1E2640;
+  --surface-3: #232C4A;
+  --glass: rgba(26,32,53,0.9);
+  --glass-border: rgba(255,255,255,0.08);
+  --border: #2D3654;
+  --border-2: #3D4A6A;
+  --text: #F9FAFB;
+  --text-2: #E5E7EB;
+  --text-3: #9CA3AF;
+  --text-4: #6B7280;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+  --shadow: 0 4px 6px -1px rgba(0,0,0,0.3), 0 2px 4px -2px rgba(0,0,0,0.2);
+  --shadow-md: 0 10px 15px -3px rgba(0,0,0,0.4), 0 4px 6px -4px rgba(0,0,0,0.2);
+  --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.4), 0 8px 10px -6px rgba(0,0,0,0.2);
+  --indigo-50: rgba(99,102,241,0.12);
+  --indigo-100: rgba(99,102,241,0.2);
+  --emerald-50: rgba(34,197,94,0.1);
+  --emerald-100: rgba(34,197,94,0.18);
+  --red-50: rgba(239,68,68,0.1);
+  --red-100: rgba(239,68,68,0.18);
+  --amber-50: rgba(245,158,11,0.1);
+  --amber-100: rgba(245,158,11,0.18);
+  --blue-50: rgba(59,130,246,0.1);
+  --purple-50: rgba(168,85,247,0.1);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+button { cursor: pointer; font-family: inherit; }
+a { text-decoration: none; color: inherit; }
+svg { display: block; }
+
+/* ═══════════════════════════════════════════════════════════
+   SCROLLBAR
+═══════════════════════════════════════════════════════════ */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-2); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-4); }
+
+/* ═══════════════════════════════════════════════════════════
+   LAYOUT
+═══════════════════════════════════════════════════════════ */
+.app { display: flex; min-height: 100vh; }
+
+/* ─── Sidebar ─── */
+.sidebar {
+  width: var(--sidebar-w);
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  z-index: 200;
+  transition: width 0.25s ease;
+  overflow: hidden;
+}
+
+.sidebar-logo {
+  padding: 22px 20px 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.logo-mark {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, var(--indigo), var(--indigo-dark));
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-indigo);
+}
+.logo-mark svg { width: 20px; height: 20px; }
+
+.logo-text .name { font-size: 15px; font-weight: 800; letter-spacing: -0.3px; color: var(--text); }
+.logo-text .tag { font-size: 10px; color: var(--text-3); font-weight: 500; letter-spacing: 0.3px; }
+
+.sidebar-search {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.sidebar-search input {
+  width: 100%;
+  padding: 7px 10px 7px 32px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 12px;
+  background: var(--bg);
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  position: relative;
+}
+.sidebar-search input:focus { border-color: var(--indigo); box-shadow: 0 0 0 3px rgba(99,102,241,0.15); }
+.search-wrap { position: relative; }
+.search-wrap svg { position: absolute; left: 9px; top: 50%; transform: translateY(-50%); color: var(--text-4); }
+
+.sidebar-nav {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 10px;
+}
+
+.nav-section {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-4);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 10px 10px 4px;
+  margin-top: 4px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+  border-radius: 9px;
+  cursor: pointer;
+  color: var(--text-3);
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 1px;
+  transition: all 0.15s;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  white-space: nowrap;
+}
+.nav-item svg { width: 17px; height: 17px; flex-shrink: 0; }
+.nav-item:hover { background: var(--surface-2); color: var(--text); }
+.nav-item.active {
+  background: var(--indigo-50);
+  color: var(--indigo);
+  font-weight: 600;
+}
+.nav-item .badge-count {
+  margin-left: auto;
+  font-size: 10px;
+  font-weight: 700;
+  background: var(--red);
+  color: white;
+  padding: 1px 6px;
+  border-radius: 99px;
+}
+
+.sidebar-footer {
+  padding: 14px 16px;
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.user-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.avatar {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--indigo), var(--purple));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; color: white;
+  flex-shrink: 0;
+}
+.user-name { font-size: 12px; font-weight: 600; color: var(--text); }
+.user-role { font-size: 10px; color: var(--text-3); }
+
+/* ─── Main ─── */
+.main {
+  margin-left: var(--sidebar-w);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ─── Topbar ─── */
+.topbar {
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 28px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.topbar-left { display: flex; align-items: center; gap: 16px; }
+.topbar-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  font-size: 13px;
+  color: var(--text-3);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.topbar-search:hover { border-color: var(--indigo); color: var(--text); }
+
+.date-filter {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-2);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.date-filter:hover { border-color: var(--indigo); }
+.date-filter svg { color: var(--text-3); }
+
+.topbar-right { display: flex; align-items: center; gap: 8px; }
+
+.icon-btn {
+  width: 36px; height: 36px;
+  border-radius: 9px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  color: var(--text-3);
+  transition: all 0.15s;
+  position: relative;
+}
+.icon-btn:hover { background: var(--surface-2); color: var(--text); border-color: var(--border-2); }
+.icon-btn .dot {
+  position: absolute; top: 7px; right: 7px;
+  width: 7px; height: 7px;
+  background: var(--red);
+  border-radius: 50%;
+  border: 1.5px solid var(--surface);
+}
+
+.dark-toggle {
+  width: 36px; height: 36px;
+  border-radius: 9px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  color: var(--text-3);
+  transition: all 0.15s;
+}
+.dark-toggle:hover { background: var(--amber-50); color: var(--amber); border-color: var(--amber); }
+
+.btn-export {
+  display: flex; align-items: center; gap: 6px;
+  padding: 7px 14px;
+  background: linear-gradient(135deg, var(--indigo), var(--indigo-dark));
+  color: white;
+  border: none;
+  border-radius: 9px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: var(--shadow-indigo);
+}
+.btn-export:hover { transform: translateY(-1px); box-shadow: 0 12px 30px -8px rgba(99,102,241,0.5); }
+.btn-export:active { transform: translateY(0); }
+
+.topbar-user {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--indigo), var(--purple));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: white;
+  cursor: pointer;
+  border: 2px solid var(--indigo-light);
+}
+
+/* ─── Content ─── */
+.content { padding: 28px; flex: 1; }
+
+/* ─── Panels ─── */
+.panel { display: none; }
+.panel.active { display: block; animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ═══════════════════════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════════════════════ */
+.hero {
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.hero-text .greeting {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: var(--text);
+  line-height: 1.2;
+}
+.hero-text .greeting span {
+  background: linear-gradient(135deg, var(--indigo), var(--purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-text .sub {
+  font-size: 13px;
+  color: var(--text-3);
+  margin-top: 3px;
+  font-weight: 400;
+}
+.hero-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: var(--emerald-50);
+  border: 1px solid var(--emerald-100);
+  border-radius: 99px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #15803D;
+}
+[data-theme="dark"] .hero-status { color: var(--emerald); }
+.pulse-dot {
+  width: 8px; height: 8px;
+  background: var(--emerald);
+  border-radius: 50%;
+  animation: pulse 2.5s ease infinite;
+}
+@keyframes pulse {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.85); }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   KPI CARDS
+═══════════════════════════════════════════════════════════ */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.kpi-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 18px 20px;
+  box-shadow: var(--shadow);
+  transition: all 0.25s ease;
+  cursor: default;
+  position: relative;
+  overflow: hidden;
+}
+.kpi-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  border-radius: var(--r-lg) var(--r-lg) 0 0;
+}
+.kpi-card.indigo::before { background: linear-gradient(90deg, var(--indigo), var(--indigo-light)); }
+.kpi-card.red::before { background: linear-gradient(90deg, var(--red), #FB7185); }
+.kpi-card.amber::before { background: linear-gradient(90deg, var(--amber), #FBBF24); }
+.kpi-card.emerald::before { background: linear-gradient(90deg, var(--emerald), var(--emerald-light)); }
+.kpi-card.purple::before { background: linear-gradient(90deg, var(--purple), #C084FC); }
+
+.kpi-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-2);
+}
+.kpi-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.kpi-icon {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+}
+.kpi-icon svg { width: 18px; height: 18px; }
+.kpi-icon.indigo { background: var(--indigo-50); color: var(--indigo); }
+.kpi-icon.red { background: var(--red-50); color: var(--red); }
+.kpi-icon.amber { background: var(--amber-50); color: var(--amber); }
+.kpi-icon.emerald { background: var(--emerald-50); color: var(--emerald); }
+.kpi-icon.purple { background: var(--purple-50); color: var(--purple); }
+
+.kpi-sparkline { height: 32px; width: 64px; }
+.kpi-value { font-size: 26px; font-weight: 800; letter-spacing: -1px; color: var(--text); line-height: 1; margin-bottom: 4px; }
+.kpi-label { font-size: 12px; color: var(--text-3); font-weight: 500; }
+.kpi-trend {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 11px; font-weight: 600; margin-top: 8px;
+}
+.kpi-trend.up { color: var(--emerald); }
+.kpi-trend.down { color: var(--red); }
+.kpi-trend.neutral { color: var(--amber); }
+.kpi-trend svg { width: 12px; height: 12px; }
+
+/* ═══════════════════════════════════════════════════════════
+   CARDS
+═══════════════════════════════════════════════════════════ */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 22px 24px;
+  box-shadow: var(--shadow);
+  margin-bottom: 20px;
+}
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.card-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.card-title svg { color: var(--text-3); }
+.card-subtitle { font-size: 12px; color: var(--text-3); margin-top: 2px; }
+.card-actions { display: flex; align-items: center; gap: 8px; }
+.chip {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text-3);
+  transition: all 0.15s;
+}
+.chip.active, .chip:hover { background: var(--indigo-50); color: var(--indigo); border-color: var(--indigo-100); }
+
+/* ═══════════════════════════════════════════════════════════
+   GRID LAYOUTS
+═══════════════════════════════════════════════════════════ */
+.grid-3 { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 20px; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.grid-2-1 { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
+.grid-1-2 { display: grid; grid-template-columns: 1fr 2fr; gap: 20px; }
+.grid-equal-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+.grid-equal-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+
+/* ═══════════════════════════════════════════════════════════
+   CHARTS (CSS / SVG)
+═══════════════════════════════════════════════════════════ */
+.chart-container { position: relative; width: 100%; }
+
+/* Donut */
+.donut-wrap { display: flex; align-items: center; gap: 28px; }
+.donut-svg { flex-shrink: 0; }
+.donut-legend { display: flex; flex-direction: column; gap: 12px; }
+.legend-item { display: flex; align-items: center; gap: 10px; }
+.legend-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+.legend-label { font-size: 12px; color: var(--text-3); }
+.legend-val { font-size: 13px; font-weight: 700; color: var(--text); margin-left: auto; padding-left: 20px; }
+
+/* Feature bars */
+.feat-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.feat-name { font-size: 12px; color: var(--text-2); width: 150px; flex-shrink: 0; text-align: right; font-weight: 500; }
+.feat-bar-track {
+  flex: 1;
+  height: 22px;
+  background: var(--surface-2);
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+}
+.feat-bar-fill {
+  height: 100%;
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: flex-end;
+  padding-right: 8px;
+  transition: width 1.2s cubic-bezier(.22,1,.36,1);
+  position: relative;
+}
+.feat-bar-fill span { font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.9); }
+.feat-pct { font-size: 11px; font-weight: 700; color: var(--text-3); width: 38px; flex-shrink: 0; }
+
+/* Heatmap */
+.heatmap-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 3px; }
+.heat-cell {
+  aspect-ratio: 1;
+  border-radius: 3px;
+  transition: transform 0.15s;
+  cursor: default;
+}
+.heat-cell:hover { transform: scale(1.15); }
+
+/* ROC curve container */
+.roc-container { position: relative; }
+
+/* ═══════════════════════════════════════════════════════════
+   MODEL TABLE
+═══════════════════════════════════════════════════════════ */
+.model-table { width: 100%; border-collapse: collapse; }
+.model-table th {
+  font-size: 11px; font-weight: 700;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  white-space: nowrap;
+}
+.model-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--text-2);
+  vertical-align: middle;
+}
+.model-table tr:last-child td { border-bottom: none; }
+.model-table tbody tr { transition: background 0.15s; }
+.model-table tbody tr:hover td { background: var(--surface-2); }
+.model-table .best-row td { background: var(--indigo-50); }
+.model-table .best-row:hover td { background: var(--indigo-100); }
+.model-name { font-weight: 700; color: var(--text); font-size: 13px; }
+
+.acc-bar-wrap { display: flex; align-items: center; gap: 8px; }
+.acc-track { flex: 1; height: 6px; background: var(--surface-3); border-radius: 3px; overflow: hidden; min-width: 80px; }
+.acc-fill { height: 100%; border-radius: 3px; background: var(--blue); }
+.best-row .acc-fill { background: var(--indigo); }
+
+.badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 10px; font-weight: 700;
+  padding: 3px 9px; border-radius: 99px;
+}
+.badge-indigo { background: var(--indigo-50); color: var(--indigo); }
+.badge-emerald { background: var(--emerald-50); color: #15803D; }
+[data-theme="dark"] .badge-emerald { color: var(--emerald); }
+.badge-amber { background: var(--amber-50); color: #92400E; }
+[data-theme="dark"] .badge-amber { color: var(--amber); }
+.badge-red { background: var(--red-50); color: #991B1B; }
+[data-theme="dark"] .badge-red { color: var(--red-light); }
+.badge-gray { background: var(--surface-2); color: var(--text-3); border: 1px solid var(--border); }
+
+/* ═══════════════════════════════════════════════════════════
+   PREDICTION FORM
+═══════════════════════════════════════════════════════════ */
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.form-group { display: flex; flex-direction: column; gap: 5px; }
+.form-label { font-size: 11px; font-weight: 700; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.5px; }
+.form-control {
+  padding: 9px 12px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  font-size: 13px;
+  font-family: inherit;
+  color: var(--text);
+  background: var(--surface);
+  outline: none;
+  transition: all 0.15s;
+  appearance: none;
+}
+.form-control:focus { border-color: var(--indigo); box-shadow: 0 0 0 3px rgba(99,102,241,0.15); }
+[data-theme="dark"] .form-control { background: var(--surface-2); }
+
+.predict-btn {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, var(--indigo), var(--indigo-dark));
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: var(--shadow-indigo);
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  margin-top: 8px;
+}
+.predict-btn:hover { transform: translateY(-2px); box-shadow: 0 16px 40px -12px rgba(99,102,241,0.5); }
+
+/* Gauge */
+.gauge-wrap { display: flex; flex-direction: column; align-items: center; padding: 12px 0; }
+.gauge-svg { width: 220px; height: 130px; }
+.gauge-pct { font-size: 32px; font-weight: 900; letter-spacing: -1px; }
+.gauge-label { font-size: 12px; color: var(--text-3); margin-top: 2px; font-weight: 500; }
+
+/* Risk badge */
+.risk-badge {
+  padding: 6px 18px;
+  border-radius: 99px;
+  font-size: 13px;
+  font-weight: 700;
+  margin-top: 10px;
+}
+.risk-low { background: var(--emerald-50); color: #15803D; border: 1px solid var(--emerald-100); }
+.risk-medium { background: var(--amber-50); color: #92400E; border: 1px solid var(--amber-100); }
+.risk-high { background: var(--red-50); color: #991B1B; border: 1px solid var(--red-100); }
+[data-theme="dark"] .risk-low { color: var(--emerald); }
+[data-theme="dark"] .risk-medium { color: var(--amber); }
+[data-theme="dark"] .risk-high { color: var(--red-light); }
+
+/* SHAP panel */
+.shap-row { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; }
+.shap-name { font-size: 12px; font-weight: 500; color: var(--text-2); width: 160px; flex-shrink: 0; }
+.shap-track { flex: 1; height: 10px; background: var(--surface-2); border-radius: 5px; overflow: hidden; }
+.shap-fill { height: 100%; border-radius: 5px; transition: width 1s ease; }
+.shap-val { font-size: 11px; font-weight: 700; width: 44px; flex-shrink: 0; text-align: right; }
+
+/* ═══════════════════════════════════════════════════════════
+   SEGMENT CARDS
+═══════════════════════════════════════════════════════════ */
+.seg-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 20px;
+  box-shadow: var(--shadow);
+  transition: all 0.25s;
+}
+.seg-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.seg-icon { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 12px; }
+.seg-title { font-size: 15px; font-weight: 700; margin-bottom: 2px; }
+.seg-count { font-size: 28px; font-weight: 900; letter-spacing: -1px; margin: 8px 0 4px; }
+.seg-bar-track { height: 4px; background: var(--surface-2); border-radius: 2px; margin: 10px 0 12px; overflow: hidden; }
+.seg-bar-fill { height: 100%; border-radius: 2px; }
+.seg-stat { display: flex; justify-content: space-between; font-size: 12px; padding: 5px 0; border-bottom: 1px solid var(--border); }
+.seg-stat:last-child { border-bottom: none; }
+.seg-stat-k { color: var(--text-3); }
+.seg-stat-v { font-weight: 700; color: var(--text); }
+
+/* ═══════════════════════════════════════════════════════════
+   INSIGHT CARDS
+═══════════════════════════════════════════════════════════ */
+.insight-card {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 16px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  margin-bottom: 12px;
+  transition: all 0.2s;
+}
+.insight-card:hover { border-color: var(--indigo); background: var(--indigo-50); }
+.insight-icon {
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0;
+}
+.insight-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+.insight-text { font-size: 12px; color: var(--text-3); line-height: 1.5; }
+
+/* ═══════════════════════════════════════════════════════════
+   EXECUTIVE SUMMARY
+═══════════════════════════════════════════════════════════ */
+.exec-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+.exec-item {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 14px 16px;
+  text-align: center;
+}
+.exec-label { font-size: 10px; font-weight: 700; color: var(--text-4); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 6px; }
+.exec-val { font-size: 18px; font-weight: 800; color: var(--text); letter-spacing: -0.5px; }
+
+/* ═══════════════════════════════════════════════════════════
+   CONFUSION MATRIX
+═══════════════════════════════════════════════════════════ */
+.confusion-matrix { display: grid; grid-template-columns: auto 1fr 1fr; gap: 3px; width: fit-content; margin: 0 auto; }
+.cm-cell {
+  padding: 16px 20px;
+  border-radius: 8px;
+  text-align: center;
+  min-width: 90px;
+}
+.cm-label { font-size: 11px; font-weight: 700; color: var(--text-3); padding: 8px; display: flex; align-items: center; justify-content: center; }
+.cm-val { font-size: 24px; font-weight: 900; }
+.cm-sub { font-size: 10px; font-weight: 600; margin-top: 2px; }
+
+/* ═══════════════════════════════════════════════════════════
+   RETENTION FUNNEL
+═══════════════════════════════════════════════════════════ */
+.funnel-stage {
+  display: flex; align-items: center; gap: 14px;
+  margin-bottom: 10px;
+}
+.funnel-bar-wrap { flex: 1; position: relative; }
+.funnel-bar {
+  height: 36px; border-radius: 6px;
+  display: flex; align-items: center;
+  padding: 0 14px;
+  font-size: 12px; font-weight: 700; color: white;
+  transition: width 1s ease;
+}
+.funnel-label { font-size: 12px; font-weight: 600; color: var(--text-2); width: 140px; flex-shrink: 0; }
+.funnel-count { font-size: 12px; font-weight: 700; color: var(--text-3); width: 70px; flex-shrink: 0; text-align: right; }
+
+/* ═══════════════════════════════════════════════════════════
+   CONTRACT ANALYSIS
+═══════════════════════════════════════════════════════════ */
+.contract-bar {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 14px;
+}
+.contract-label { width: 160px; font-size: 12px; font-weight: 600; color: var(--text-2); flex-shrink: 0; }
+.contract-track { flex: 1; height: 28px; background: var(--surface-2); border-radius: 7px; overflow: hidden; position: relative; }
+.contract-fill { height: 100%; border-radius: 7px; display: flex; align-items: center; padding-left: 10px; font-size: 11px; font-weight: 700; color: white; }
+.contract-pct { width: 50px; font-size: 13px; font-weight: 800; text-align: right; flex-shrink: 0; }
+
+/* ═══════════════════════════════════════════════════════════
+   RECOMMENDATIONS
+═══════════════════════════════════════════════════════════ */
+.rec-card {
+  background: linear-gradient(135deg, var(--indigo-50), var(--purple-50));
+  border: 1px solid var(--indigo-100);
+  border-radius: var(--r);
+  padding: 16px;
+  margin-bottom: 10px;
+  display: flex; gap: 12px; align-items: flex-start;
+}
+.rec-num {
+  width: 26px; height: 26px;
+  background: var(--indigo);
+  color: white;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 800;
+  flex-shrink: 0;
+}
+.rec-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+.rec-text { font-size: 12px; color: var(--text-3); }
+
+/* ═══════════════════════════════════════════════════════════
+   LOADING SKELETON
+═══════════════════════════════════════════════════════════ */
+.skeleton {
+  background: linear-gradient(90deg, var(--surface-2) 25%, var(--surface-3) 50%, var(--surface-2) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 6px;
+}
+@keyframes shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════════════ */
+@media (max-width: 1200px) {
+  .kpi-grid { grid-template-columns: repeat(3, 1fr); }
+  .grid-3 { grid-template-columns: 1fr 1fr; }
+  .exec-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 900px) {
+  :root { --sidebar-w: 0px; }
+  .sidebar { transform: translateX(-240px); }
+  .kpi-grid { grid-template-columns: 1fr 1fr; }
+  .grid-3, .grid-2, .grid-2-1, .grid-1-2, .grid-equal-3, .grid-equal-4 { grid-template-columns: 1fr; }
+  .content { padding: 16px; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   STAT STRIP
+═══════════════════════════════════════════════════════════ */
+.stat-strip {
+  display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px;
+}
+.stat-pill {
+  display: flex; align-items: center; gap: 6px;
+  padding: 5px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  font-size: 12px; font-weight: 600;
+  color: var(--text-2);
+}
+.stat-pill .dot { width: 7px; height: 7px; border-radius: 50%; }
+
+/* Divider */
+.divider { height: 1px; background: var(--border); margin: 20px 0; }
+
+/* Section heading */
+.section-heading {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.3px;
+  margin-bottom: 16px;
+  display: flex; align-items: center; gap: 8px;
+}
+.section-heading::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+  margin-left: 8px;
+}
+
+/* Tooltip */
+.tooltip { position: relative; }
+.tooltip-text {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--text);
+  color: var(--surface);
+  font-size: 11px;
+  padding: 5px 9px;
+  border-radius: 6px;
+  white-space: nowrap;
+  z-index: 999;
+  pointer-events: none;
+}
+.tooltip:hover .tooltip-text { display: block; }
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- ══════════════════ SIDEBAR ══════════════════ -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-mark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+      </svg>
+    </div>
+    <div class="logo-text">
+      <div class="name">PulseAI</div>
+      <div class="tag">Churn Intelligence</div>
+    </div>
+  </div>
+
+  <div class="sidebar-search">
+    <div class="search-wrap">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+      <input type="text" placeholder="Search navigation…" id="sidebar-search-input" oninput="filterNav(this.value)">
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-section nav-section-analytics">Analytics</div>
+    <button class="nav-item active" id="nav-overview" onclick="showPanel('overview',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      <span>Overview</span>
+    </button>
+    <button class="nav-item" id="nav-predict" onclick="showPanel('predict',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      <span>Predict Customer</span>
+      <span class="badge-count">AI</span>
+    </button>
+
+    <div class="nav-section nav-section-models" style="margin-top:8px">Models</div>
+    <button class="nav-item" id="nav-models" onclick="showPanel('models',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      <span>Model Comparison</span>
+    </button>
+    <button class="nav-item" id="nav-features" onclick="showPanel('features',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      <span>Feature Importance</span>
+    </button>
+    <button class="nav-item" id="nav-advanced" onclick="showPanel('advanced',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+      <span>Advanced Charts</span>
+    </button>
+
+    <div class="nav-section nav-section-customers" style="margin-top:8px">Customers</div>
+    <button class="nav-item" id="nav-segments" onclick="showPanel('segments',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      <span>Segments</span>
+    </button>
+    <button class="nav-item" id="nav-insights" onclick="showPanel('insights',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/></svg>
+      <span>Business Insights</span>
+    </button>
+  </nav>
+
+</aside>
+
+<!-- ══════════════════ MAIN ══════════════════ -->
+<div class="main">
+
+  <!-- NOTIFICATION DROPDOWN STYLES + SEARCH MODAL -->
+  <style>
+  /* ── Notification dropdown ── */
+  .notif-wrapper { position: relative; }
+  .notif-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    width: 320px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    box-shadow: var(--shadow-lg);
+    z-index: 999;
+    overflow: hidden;
+    animation: fadeIn 0.2s ease;
+  }
+  .notif-dropdown.open { display: block; }
+  .notif-header {
+    padding: 14px 16px 10px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .notif-header-title { font-size: 13px; font-weight: 700; color: var(--text); }
+  .notif-mark-all { font-size: 11px; color: var(--indigo); font-weight: 600; cursor: pointer; border: none; background: none; }
+  .notif-mark-all:hover { text-decoration: underline; }
+  .notif-item {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex; gap: 10px; align-items: flex-start;
+    transition: background 0.15s; cursor: pointer;
+  }
+  .notif-item:last-child { border-bottom: none; }
+  .notif-item:hover { background: var(--surface-2); }
+  .notif-item.unread { background: var(--indigo-50); }
+  .notif-item.unread:hover { background: var(--indigo-100); }
+  .notif-dot-icon {
+    width: 34px; height: 34px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; flex-shrink: 0;
+  }
+  .notif-text-title { font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+  .notif-text-body { font-size: 11px; color: var(--text-3); line-height: 1.4; }
+  .notif-time { font-size: 10px; color: var(--text-4); margin-top: 3px; }
+  .notif-footer { padding: 10px; text-align: center; }
+  .notif-footer button { font-size: 12px; color: var(--indigo); font-weight: 600; background: none; border: none; cursor: pointer; }
+
+  /* ── Search modal ── */
+  .search-modal-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.45);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 100px;
+  }
+  .search-modal-overlay.open { display: flex; }
+  .search-modal {
+    width: 560px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-xl);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    animation: fadeIn 0.2s ease;
+  }
+  .search-modal-input-wrap {
+    display: flex; align-items: center; gap: 10px;
+    padding: 16px 18px;
+    border-bottom: 1px solid var(--border);
+  }
+  .search-modal-input {
+    flex: 1; border: none; outline: none;
+    font-size: 15px; font-weight: 500;
+    background: transparent; color: var(--text);
+    font-family: inherit;
+  }
+  .search-modal-input::placeholder { color: var(--text-4); }
+  .search-results-list { max-height: 320px; overflow-y: auto; }
+  .search-result-item {
+    padding: 11px 18px;
+    display: flex; align-items: center; gap: 12px;
+    cursor: pointer; transition: background 0.15s;
+    border-bottom: 1px solid var(--border);
+  }
+  .search-result-item:last-child { border-bottom: none; }
+  .search-result-item:hover, .search-result-item.focused { background: var(--indigo-50); }
+  .search-result-icon {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: var(--indigo-50); color: var(--indigo);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .search-result-name { font-size: 13px; font-weight: 600; color: var(--text); }
+  .search-result-cat { font-size: 11px; color: var(--text-3); margin-top: 1px; }
+  .search-result-shortcut { margin-left: auto; font-size: 11px; color: var(--text-4); }
+  .search-empty { padding: 30px; text-align: center; color: var(--text-3); font-size: 13px; }
+  .search-footer {
+    padding: 10px 18px;
+    border-top: 1px solid var(--border);
+    display: flex; gap: 16px;
+    font-size: 11px; color: var(--text-4);
+  }
+  .search-footer kbd {
+    background: var(--surface-2); border: 1px solid var(--border);
+    border-radius: 4px; padding: 1px 5px; font-size: 10px; margin-right: 4px;
+  }
+
+  /* ── Nav section improved design ── */
+  .nav-section {
+    font-size: 9px;
+    font-weight: 800;
+    color: var(--text-4);
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    padding: 12px 12px 5px;
+    margin-top: 4px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .nav-section::after {
+    content: '';
+    flex: 1; height: 1px;
+    background: var(--border);
+  }
+
+  /* ── Nav item improved design ── */
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    color: var(--text-3);
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 2px;
+    transition: all 0.15s;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    white-space: nowrap;
+    position: relative;
+  }
+  .nav-item svg { width: 16px; height: 16px; flex-shrink: 0; }
+  .nav-item:hover { background: var(--surface-2); color: var(--text-2); }
+  .nav-item.active {
+    background: linear-gradient(135deg, var(--indigo-50), rgba(168,85,247,0.08));
+    color: var(--indigo);
+    font-weight: 600;
+    border: 1px solid var(--indigo-100);
+  }
+  .nav-item.active svg { color: var(--indigo); }
+  .nav-item.hidden { display: none; }
+
+  /* improved sidebar logo */
+  .logo-mark {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, var(--indigo), var(--purple));
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 4px 14px rgba(99,102,241,0.45);
+  }
+  .logo-text .name { font-size: 16px; font-weight: 900; letter-spacing: -0.5px; color: var(--text); }
+  .logo-text .tag { font-size: 10px; color: var(--text-4); font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; }
+
+  /* Print styles for export */
+  @media print {
+    .sidebar, .topbar, .predict-btn, .btn-export, .icon-btn, .dark-toggle { display: none !important; }
+    .main { margin-left: 0 !important; }
+    body { background: white !important; }
+    .panel { display: block !important; }
+    .panel:not(.active) { display: none !important; }
+  }
+
+  /* ── Form redesign ── */
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-label {
+    font-size: 11px; font-weight: 700; color: var(--text-3);
+    text-transform: uppercase; letter-spacing: 0.7px;
+    display: flex; align-items: center; gap: 5px;
+  }
+  .form-control {
+    padding: 10px 12px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-size: 13px;
+    font-family: inherit;
+    color: var(--text);
+    background: var(--surface);
+    outline: none;
+    transition: all 0.2s;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+  .form-control:focus {
+    border-color: var(--indigo);
+    box-shadow: 0 0 0 3px rgba(99,102,241,0.12);
+    background: var(--surface);
+  }
+  .form-control:hover:not(:focus) { border-color: var(--border-2); }
+  [data-theme="dark"] .form-control { background: var(--surface-2); }
+  select.form-control {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 30px;
+  }
+
+  /* ── Profile form card header ── */
+  .profile-form-header {
+    display: flex; align-items: center; gap: 10px;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    margin: -20px -20px 20px;
+    background: linear-gradient(135deg, var(--indigo-50), var(--purple-50));
+    border-radius: var(--r-lg) var(--r-lg) 0 0;
+  }
+  .profile-form-icon {
+    width: 38px; height: 38px;
+    background: linear-gradient(135deg, var(--indigo), var(--purple));
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: var(--shadow-indigo);
+  }
+  .profile-form-title { font-size: 14px; font-weight: 800; color: var(--text); }
+  .profile-form-sub { font-size: 11px; color: var(--text-3); margin-top: 1px; }
+
+  /* Predict btn improved */
+  .predict-btn {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--indigo), var(--purple));
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 8px 25px -8px rgba(99,102,241,0.5);
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    margin-top: 16px;
+    letter-spacing: 0.2px;
+  }
+  .predict-btn:hover { transform: translateY(-2px); box-shadow: 0 16px 40px -12px rgba(99,102,241,0.6); }
+
+  /* Colored form control variants */
+  .fc-indigo:focus  { border-color: #6366F1 !important; box-shadow: 0 0 0 3px rgba(99,102,241,0.13) !important; }
+  .fc-emerald:focus { border-color: #10B981 !important; box-shadow: 0 0 0 3px rgba(16,185,129,0.13) !important; }
+  .fc-amber:focus   { border-color: #F59E0B !important; box-shadow: 0 0 0 3px rgba(245,158,11,0.13) !important; }
+  .fc-indigo:hover:not(:focus)  { border-color: rgba(99,102,241,0.35) !important; }
+  .fc-emerald:hover:not(:focus) { border-color: rgba(16,185,129,0.35) !important; }
+  .fc-amber:hover:not(:focus)   { border-color: rgba(245,158,11,0.35) !important; }
+
+  /* ── Colored nav items per section ── */
+
+  /* Analytics section */
+  #nav-overview:hover, #nav-overview.active { background: linear-gradient(135deg,rgba(99,102,241,0.12),rgba(99,102,241,0.06)); color: #6366F1; border-color: rgba(99,102,241,0.25); }
+  #nav-overview svg { color: #6366F1; }
+
+  #nav-predict:hover, #nav-predict.active { background: linear-gradient(135deg,rgba(168,85,247,0.12),rgba(168,85,247,0.06)); color: #A855F7; border-color: rgba(168,85,247,0.25); }
+  #nav-predict svg { color: #A855F7; }
+
+  /* Models section */
+  #nav-models:hover, #nav-models.active { background: linear-gradient(135deg,rgba(59,130,246,0.12),rgba(59,130,246,0.06)); color: #3B82F6; border-color: rgba(59,130,246,0.25); }
+  #nav-models svg { color: #3B82F6; }
+
+  #nav-features:hover, #nav-features.active { background: linear-gradient(135deg,rgba(16,185,129,0.12),rgba(16,185,129,0.06)); color: #10B981; border-color: rgba(16,185,129,0.25); }
+  #nav-features svg { color: #10B981; }
+
+  #nav-advanced:hover, #nav-advanced.active { background: linear-gradient(135deg,rgba(245,158,11,0.12),rgba(245,158,11,0.06)); color: #F59E0B; border-color: rgba(245,158,11,0.25); }
+  #nav-advanced svg { color: #F59E0B; }
+
+  /* Customers section */
+  #nav-segments:hover, #nav-segments.active { background: linear-gradient(135deg,rgba(236,72,153,0.12),rgba(236,72,153,0.06)); color: #EC4899; border-color: rgba(236,72,153,0.25); }
+  #nav-segments svg { color: #EC4899; }
+
+  #nav-insights:hover, #nav-insights.active { background: linear-gradient(135deg,rgba(239,68,68,0.10),rgba(239,68,68,0.05)); color: #EF4444; border-color: rgba(239,68,68,0.22); }
+  #nav-insights svg { color: #EF4444; }
+
+  /* Default hover for non-active: still show color on hover */
+  #nav-overview:not(.active):hover { border: 1px solid rgba(99,102,241,0.2); }
+  #nav-predict:not(.active):hover  { border: 1px solid rgba(168,85,247,0.2); }
+  #nav-models:not(.active):hover   { border: 1px solid rgba(59,130,246,0.2); }
+  #nav-features:not(.active):hover { border: 1px solid rgba(16,185,129,0.2); }
+  #nav-advanced:not(.active):hover { border: 1px solid rgba(245,158,11,0.2); }
+  #nav-segments:not(.active):hover { border: 1px solid rgba(236,72,153,0.2); }
+  #nav-insights:not(.active):hover { border: 1px solid rgba(239,68,68,0.2); }
+
+  /* Nav item icon wrapper subtle bg on active */
+  .nav-item.active .nav-icon-wrap { opacity: 1; }
+
+  /* Section label colors */
+  .nav-section-analytics { color: rgba(99,102,241,0.7) !important; }
+  .nav-section-models { color: rgba(59,130,246,0.7) !important; }
+  .nav-section-customers { color: rgba(236,72,153,0.7) !important; }
+
+  /* Sidebar gradient background bands per section */
+  .sidebar-nav .section-band {
+    margin: 4px 0 2px;
+    padding: 0 6px;
+  }
+
+  /* ── Professional greeting ── */
+  .greeting { font-size: 20px !important; font-weight: 800 !important; }
+  .greeting span {
+    background: linear-gradient(135deg,#6366F1,#A855F7) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+  }
+
+  /* Topbar date filter improved */
+  .date-filter {
+    background: linear-gradient(135deg,var(--indigo-50),rgba(168,85,247,0.08));
+    border-color: var(--indigo-100);
+    color: var(--indigo);
+    font-weight: 600;
+  }
+  [data-theme="dark"] .date-filter {
+    background: rgba(99,102,241,0.1);
+    border-color: rgba(99,102,241,0.25);
+    color: var(--indigo-light);
+  }
+  
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 11px; font-weight: 600;
+    padding: 4px 10px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    color: var(--text-3);
+    margin-bottom: 8px;
+  }
+  </style>
+
+  <!-- SEARCH MODAL -->
+  <div class="search-modal-overlay" id="search-modal" onclick="closeSearchModal(event)">
+    <div class="search-modal">
+      <div class="search-modal-input-wrap">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input class="search-modal-input" id="search-modal-input" placeholder="Search panels, features, models…" oninput="runSearch(this.value)" onkeydown="searchKeyNav(event)">
+      </div>
+      <div class="search-results-list" id="search-results"></div>
+      <div class="search-footer">
+        <span><kbd>↑↓</kbd> Navigate</span>
+        <span><kbd>↵</kbd> Select</span>
+        <span><kbd>Esc</kbd> Close</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="topbar-search" onclick="openSearchModal()" style="cursor:pointer;min-width:220px">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <span>Search customers, models…</span>
+        <span style="font-size:11px;padding:2px 6px;background:var(--surface-3);border-radius:4px;color:var(--text-4);margin-left:auto">⌘K</span>
+      </div>
+      </div>
+    <div class="topbar-right">
+      <div class="notif-wrapper">
+        <div class="icon-btn" title="Notifications" onclick="toggleNotifications()" id="notif-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span class="dot" id="notif-dot"></span>
+        </div>
+        <div class="notif-dropdown" id="notif-dropdown">
+          <div class="notif-header">
+            <span class="notif-header-title">Notifications <span id="notif-count-badge" style="background:var(--red);color:white;font-size:10px;padding:1px 6px;border-radius:99px;margin-left:4px">0</span></span>
+            <button class="notif-mark-all" onclick="markAllRead()">Mark all read</button>
+          </div>
+          <div id="notif-list">
+            <!-- dynamically populated -->
+            <div id="notif-empty" style="padding:28px 16px;text-align:center;color:var(--text-4);font-size:12px">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin:0 auto 8px;opacity:0.4;display:block"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+              No notifications yet.<br>Run a prediction to see results here.
+            </div>
+          </div>
+          <div class="notif-footer"><button onclick="markAllRead()">Mark all as read</button></div>
+        </div>
+      </div>
+      <button class="dark-toggle" onclick="toggleDark()" title="Toggle dark mode">
+        <svg id="dark-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+      <button class="btn-export" onclick="exportPDF()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Export PDF
+      </button>
+    </div>
+  </header>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- ════════════════ OVERVIEW ════════════════ -->
+    <div id="panel-overview" class="panel active">
+      <div class="hero">
+        <div class="hero-text">
+          <div class="greeting" id="dynamic-greeting">Dashboard Analytics — <span>PulseAI</span></div>
+          <div class="sub">AI-powered customer churn intelligence · 7,043 customers analyzed · Updated just now</div>
+        </div>
+        <div class="hero-status">
+          <div class="pulse-dot"></div>
+          All models active
+        </div>
+      </div>
+
+      <!-- KPI CARDS -->
+      <div class="kpi-grid">
+        <div class="kpi-card indigo">
+          <div class="kpi-top">
+            <div class="kpi-icon indigo">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <svg class="kpi-sparkline" id="spark-1" viewBox="0 0 64 32" xmlns="http://www.w3.org/2000/svg"></svg>
+          </div>
+          <div class="kpi-value" id="kpi-customers">0</div>
+          <div class="kpi-label">Total Customers</div>
+          <div class="kpi-trend up">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            +2.4% from last quarter
+          </div>
+        </div>
+        <div class="kpi-card red">
+          <div class="kpi-top">
+            <div class="kpi-icon red">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 17 13.5 8.5 8.5 13.5 2 7"/><polyline points="16 17 22 17 22 11"/></svg>
+            </div>
+            <svg class="kpi-sparkline" id="spark-2" viewBox="0 0 64 32" xmlns="http://www.w3.org/2000/svg"></svg>
+          </div>
+          <div class="kpi-value" id="kpi-churn" style="color:var(--red)">0%</div>
+          <div class="kpi-label">Churn Rate</div>
+          <div class="kpi-trend down">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg>
+            1,869 customers lost
+          </div>
+        </div>
+        <div class="kpi-card amber">
+          <div class="kpi-top">
+            <div class="kpi-icon amber">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <svg class="kpi-sparkline" id="spark-3" viewBox="0 0 64 32" xmlns="http://www.w3.org/2000/svg"></svg>
+          </div>
+          <div class="kpi-value" id="kpi-revenue" style="color:var(--amber)">$0</div>
+          <div class="kpi-label">Revenue at Risk</div>
+          <div class="kpi-trend down">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg>
+            Based on avg $64/mo
+          </div>
+        </div>
+        <div class="kpi-card emerald">
+          <div class="kpi-top">
+            <div class="kpi-icon emerald">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 11 3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            </div>
+            <svg class="kpi-sparkline" id="spark-4" viewBox="0 0 64 32" xmlns="http://www.w3.org/2000/svg"></svg>
+          </div>
+          <div class="kpi-value" id="kpi-accuracy" style="color:var(--emerald)">0%</div>
+          <div class="kpi-label">Best Model Accuracy</div>
+          <div class="kpi-trend up">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            Logistic Regression
+          </div>
+        </div>
+        <div class="kpi-card purple">
+          <div class="kpi-top">
+            <div class="kpi-icon purple">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+            </div>
+            <svg class="kpi-sparkline" id="spark-5" viewBox="0 0 64 32" xmlns="http://www.w3.org/2000/svg"></svg>
+          </div>
+          <div class="kpi-value" id="kpi-segments" style="color:var(--purple)">0</div>
+          <div class="kpi-label">Customer Segments</div>
+          <div class="kpi-trend neutral">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            K-Means · 3 clusters
+          </div>
+        </div>
+      </div>
+
+      <!-- CHARTS ROW 1 -->
+      <div class="grid-3" style="margin-bottom:20px">
+        <div class="card" style="margin-bottom:0">
+          <div class="card-header">
+            <div>
+              <div class="card-title">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                Churn Trend
+              </div>
+              <div class="card-subtitle">Monthly churn evolution</div>
+            </div>
+            <div class="card-actions">
+              <span class="chip active">6M</span>
+              <span class="chip">1Y</span>
+            </div>
+          </div>
+          <svg id="trend-chart" viewBox="0 0 360 160" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:160px"></svg>
+        </div>
+
+        <div class="card" style="margin-bottom:0">
+          <div class="card-header">
+            <div>
+              <div class="card-title">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>
+                Churn Distribution
+              </div>
+              <div class="card-subtitle">Churned vs retained</div>
+            </div>
+          </div>
+          <div class="donut-wrap" style="justify-content:center">
+            <svg class="donut-svg" viewBox="0 0 140 140" width="140" height="140" xmlns="http://www.w3.org/2000/svg" id="donut-chart"></svg>
+            <div class="donut-legend">
+              <div class="legend-item">
+                <div class="legend-dot" style="background:var(--red)"></div>
+                <span class="legend-label">Churned</span>
+                <span class="legend-val">26.5%</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:var(--emerald)"></div>
+                <span class="legend-label">Retained</span>
+                <span class="legend-val">73.5%</span>
+              </div>
+              <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border)">
+                <div style="font-size:11px;color:var(--text-3)">Total analyzed</div>
+                <div style="font-size:18px;font-weight:800;color:var(--text)">7,043</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:0">
+          <div class="card-header">
+            <div>
+              <div class="card-title">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                Top Churn Drivers
+              </div>
+              <div class="card-subtitle">Feature importance ranking</div>
+            </div>
+          </div>
+          <div id="driver-bars"></div>
+        </div>
+      </div>
+
+      <!-- EXECUTIVE SUMMARY STRIP -->
+      <div class="card" style="background:linear-gradient(135deg,var(--indigo-50),var(--purple-50));border-color:var(--indigo-100)">
+        <div class="card-header" style="margin-bottom:14px">
+          <div class="card-title" style="color:var(--indigo)">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            Executive Summary
+          </div>
+          <span class="badge badge-indigo">Auto-generated · Q3 2023</span>
+        </div>
+        <div class="exec-grid">
+          <div class="exec-item"><div class="exec-label">Best Model</div><div class="exec-val">Log. Regression</div></div>
+          <div class="exec-item"><div class="exec-label">Accuracy</div><div class="exec-val" style="color:var(--emerald)">81.2%</div></div>
+          <div class="exec-item"><div class="exec-label">Churn Rate</div><div class="exec-val" style="color:var(--red)">26.5%</div></div>
+          <div class="exec-item"><div class="exec-label">Revenue at Risk</div><div class="exec-val" style="color:var(--amber)">$1.2M</div></div>
+          <div class="exec-item"><div class="exec-label">Retention Opp.</div><div class="exec-val" style="color:var(--indigo)">$0.9M</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════ PREDICT ════════════════ -->
+    <div id="panel-predict" class="panel">
+      <div class="hero">
+        <div class="hero-text">
+          <div class="greeting">Predict <span>Customer Churn</span></div>
+          <div class="sub">Enter customer details for real-time AI churn risk assessment</div>
+        </div>
+        <span class="badge badge-indigo" style="font-size:12px;padding:6px 14px">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          Powered by Logistic Regression · 81.2% accuracy
+        </span>
+      </div>
+
+      <div class="grid-1-2" style="align-items:start">
+        <!-- Form -->
+        <div class="card" style="margin-bottom:0">
+          <div class="profile-form-header">
+            <div class="profile-form-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div>
+              <div class="profile-form-title">Customer Profile</div>
+              <div class="profile-form-sub">Fill in details to assess churn risk</div>
+            </div>
+            <span class="badge badge-indigo" style="margin-left:auto;font-size:10px">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              AI Model
+            </span>
+          </div>
+
+          <!-- GROUP 1: Contract Info -->
+          <div style="margin-bottom:18px">
+            <div style="display:flex;align-items:center;gap:7px;margin-bottom:12px">
+              <div style="width:24px;height:24px;background:linear-gradient(135deg,#6366F1,#818CF8);border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+              </div>
+              <span style="font-size:11px;font-weight:800;color:var(--indigo);text-transform:uppercase;letter-spacing:0.8px">Contract Info</span>
+              <div style="flex:1;height:1px;background:linear-gradient(90deg,var(--indigo-100),transparent)"></div>
+            </div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label" style="color:#6366F1">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/></svg>
+                  Contract Type
+                </label>
+                <select class="form-control fc-indigo" id="p-contract">
+                  <option value="0">Month-to-Month</option>
+                  <option value="1">One Year</option>
+                  <option value="2">Two Year</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" style="color:#6366F1">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  Tenure (months)
+                </label>
+                <input type="number" class="form-control fc-indigo" id="p-tenure" placeholder="e.g. 12" min="0" max="72">
+              </div>
+              <div class="form-group">
+                <label class="form-label" style="color:#6366F1">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                  Monthly Charges ($)
+                </label>
+                <input type="number" class="form-control fc-indigo" id="p-monthly" placeholder="e.g. 65.00" min="0">
+              </div>
+              <div class="form-group">
+                <label class="form-label" style="color:#6366F1">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1"/></svg>
+                  Internet Service
+                </label>
+                <select class="form-control fc-indigo" id="p-internet">
+                  <option value="0">Fiber Optic</option>
+                  <option value="1">DSL</option>
+                  <option value="2">No Internet</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- GROUP 2: Support & Security -->
+          <div style="margin-bottom:18px">
+            <div style="display:flex;align-items:center;gap:7px;margin-bottom:12px">
+              <div style="width:24px;height:24px;background:linear-gradient(135deg,#10B981,#34D399);border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <span style="font-size:11px;font-weight:800;color:#10B981;text-transform:uppercase;letter-spacing:0.8px">Support & Security</span>
+              <div style="flex:1;height:1px;background:linear-gradient(90deg,rgba(16,185,129,0.2),transparent)"></div>
+            </div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label" style="color:#10B981">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 12l2 2 4-4"/><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2z"/></svg>
+                  Tech Support
+                </label>
+                <select class="form-control fc-emerald" id="p-tech">
+                  <option value="0">No</option>
+                  <option value="1">Yes</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" style="color:#10B981">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                  Online Security
+                </label>
+                <select class="form-control fc-emerald" id="p-security">
+                  <option value="0">No</option>
+                  <option value="1">Yes</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- GROUP 3: Demographics -->
+          <div style="margin-bottom:18px">
+            <div style="display:flex;align-items:center;gap:7px;margin-bottom:12px">
+              <div style="width:24px;height:24px;background:linear-gradient(135deg,#F59E0B,#FCD34D);border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+              </div>
+              <span style="font-size:11px;font-weight:800;color:#F59E0B;text-transform:uppercase;letter-spacing:0.8px">Demographics</span>
+              <div style="flex:1;height:1px;background:linear-gradient(90deg,rgba(245,158,11,0.2),transparent)"></div>
+            </div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label" style="color:#F59E0B">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                  Senior Citizen
+                </label>
+                <select class="form-control fc-amber" id="p-senior">
+                  <option value="0">No</option>
+                  <option value="1">Yes</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" style="color:#F59E0B">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                  Partner
+                </label>
+                <select class="form-control fc-amber" id="p-partner">
+                  <option value="0">No</option>
+                  <option value="1">Yes</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" style="color:#F59E0B">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                  Dependents
+                </label>
+                <select class="form-control fc-amber" id="p-dep">
+                  <option value="0">No</option>
+                  <option value="1">Yes</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" style="color:#F59E0B">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                  Paperless Billing
+                </label>
+                <select class="form-control fc-amber" id="p-paperless">
+                  <option value="1">Yes</option>
+                  <option value="0">No</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Buttons -->
+          <div style="display:grid;grid-template-columns:1fr auto;gap:10px;margin-top:4px">
+            <button class="predict-btn" style="margin-top:0" onclick="predictChurn()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              Analyze Churn Risk
+            </button>
+            <button onclick="resetPrediction()" title="Clear results" style="padding:0 18px;background:var(--surface-2);border:1.5px solid var(--border);border-radius:12px;color:var(--text-3);cursor:pointer;font-size:13px;font-weight:600;display:flex;align-items:center;gap:6px;transition:all 0.2s;white-space:nowrap" onmouseover="this.style.background='var(--red-50)';this.style.borderColor='var(--red-light)';this.style.color='var(--red)'" onmouseout="this.style.background='var(--surface-2)';this.style.borderColor='var(--border)';this.style.color='var(--text-3)'">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.5"/></svg>
+              Reset
+            </button>
+          </div>
+        </div>
+
+        <!-- Results -->
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div class="card" style="margin-bottom:0" id="result-card">
+            <div class="card-header">
+              <div class="card-title">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 11 3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                Prediction Result
+              </div>
+              <span class="badge badge-gray" id="model-badge">Awaiting input</span>
+            </div>
+
+            <div id="result-placeholder" style="text-align:center;padding:40px 20px;color:var(--text-3)">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin:0 auto 12px;opacity:0.4"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <div style="font-size:14px;font-weight:600;margin-bottom:4px">No prediction yet</div>
+              <div style="font-size:12px">Fill in customer details and click Analyze</div>
+            </div>
+
+            <div id="result-content" style="display:none">
+              <div class="gauge-wrap">
+                <svg class="gauge-svg" id="gauge-svg" viewBox="0 0 220 130" xmlns="http://www.w3.org/2000/svg"></svg>
+                <div style="text-align:center;margin-top:-8px">
+                  <div class="gauge-pct" id="gauge-pct" style="color:var(--text)">0%</div>
+                  <div class="gauge-label">Churn Probability</div>
+                  <div id="risk-badge-el" class="risk-badge risk-low" style="display:inline-block">Low Risk</div>
+                </div>
+              </div>
+
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0">
+                <div style="background:var(--emerald-50);border:1px solid var(--emerald-100);border-radius:10px;padding:12px;text-align:center">
+                  <div style="font-size:11px;color:var(--text-3);font-weight:600;margin-bottom:4px">STAY PROBABILITY</div>
+                  <div style="font-size:22px;font-weight:900;color:var(--emerald)" id="stay-pct">—</div>
+                </div>
+                <div style="background:var(--red-50);border:1px solid var(--red-100);border-radius:10px;padding:12px;text-align:center">
+                  <div style="font-size:11px;color:var(--text-3);font-weight:600;margin-bottom:4px">CHURN PROBABILITY</div>
+                  <div style="font-size:22px;font-weight:900;color:var(--red)" id="churn-pct">—</div>
+                </div>
+              </div>
+
+              <div id="r-action" style="padding:12px 14px;border-radius:10px;font-size:12px;font-weight:500;display:flex;align-items:flex-start;gap:10px;margin-top:4px"></div>
+            </div>
+          </div>
+
+          <!-- SHAP explanation -->
+          <div class="card" style="margin-bottom:0" id="shap-card">
+            <div class="card-header">
+              <div class="card-title">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                Prediction Explanation
+              </div>
+              <span class="badge badge-indigo">SHAP-style</span>
+            </div>
+            <div id="shap-content" style="color:var(--text-3);font-size:13px;padding:20px;text-align:center">Run prediction to see factor analysis</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════ MODELS ════════════════ -->
+    <div id="panel-models" class="panel">
+      <div class="hero">
+        <div class="hero-text">
+          <div class="greeting">Model <span>Comparison</span></div>
+          <div class="sub">Performance metrics across all trained classifiers</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            Accuracy Overview
+          </div>
+          <span class="badge badge-emerald">5 models trained</span>
+        </div>
+        <div id="model-accuracy-bars" style="padding:8px 0"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+            Full Performance Metrics
+          </div>
+        </div>
+        <table class="model-table">
+          <thead>
+            <tr>
+              <th>Model</th>
+              <th>Accuracy</th>
+              <th>Precision</th>
+              <th>Recall</th>
+              <th>F1 Score</th>
+              <th>ROC-AUC</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="model-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ════════════════ FEATURES ════════════════ -->
+    <div id="panel-features" class="panel">
+      <div class="hero">
+        <div class="hero-text">
+          <div class="greeting">Feature <span>Importance</span></div>
+          <div class="sub">Contribution of each variable to churn prediction</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            Feature Importance Ranking
+          </div>
+          <span class="badge badge-indigo">10 features</span>
+        </div>
+        <div id="feature-bars-main"></div>
+      </div>
+    </div>
+
+    <!-- ════════════════ ADVANCED ════════════════ -->
+    <div id="panel-advanced" class="panel">
+      <div class="hero">
+        <div class="hero-text">
+          <div class="greeting">Advanced <span>Visualizations</span></div>
+          <div class="sub">ROC Curve, Confusion Matrix, Correlation Heatmap, Retention Funnel</div>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-bottom:20px">
+        <!-- ROC Curve -->
+        <div class="card" style="margin-bottom:0">
+          <div class="card-header">
+            <div class="card-title">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+              ROC Curve
+            </div>
+            <span class="badge badge-emerald">AUC = 0.847</span>
+          </div>
+          <svg id="roc-chart" viewBox="0 0 280 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:220px"></svg>
+        </div>
+
+        <!-- Confusion Matrix -->
+        <div class="card" style="margin-bottom:0">
+          <div class="card-header">
+            <div class="card-title">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+              Confusion Matrix
+            </div>
+            <span class="badge badge-indigo">Logistic Regression</span>
+          </div>
+          <div id="confusion-matrix-wrap" style="display:flex;align-items:center;justify-content:center;padding:20px 0"></div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <!-- Retention Funnel -->
+        <div class="card" style="margin-bottom:0">
+          <div class="card-header">
+            <div class="card-title">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+              Retention Funnel
+            </div>
+          </div>
+          <div id="funnel-chart"></div>
+        </div>
+
+        <!-- Contract Type Analysis -->
+        <div class="card" style="margin-bottom:0">
+          <div class="card-header">
+            <div class="card-title">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg>
+              Contract Type Churn Rate
+            </div>
+          </div>
+          <div id="contract-chart"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════ SEGMENTS ════════════════ -->
+    <div id="panel-segments" class="panel">
+      <div class="hero">
+        <div class="hero-text">
+          <div class="greeting">Customer <span>Segmentation</span></div>
+          <div class="sub">K-Means clustering — 3 behavioral segments identified</div>
+        </div>
+      </div>
+      <div class="grid-equal-3" style="margin-bottom:20px" id="seg-cards"></div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            K-Means Cluster Scatter Plot
+          </div>
+          <span class="badge badge-indigo">K=3</span>
+        </div>
+        <svg id="scatter-plot" viewBox="0 0 600 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:280px"></svg>
+      </div>
+    </div>
+
+    <!-- ════════════════ INSIGHTS ════════════════ -->
+    <div id="panel-insights" class="panel">
+      <div class="hero">
+        <div class="hero-text">
+          <div class="greeting">Business <span>Intelligence</span></div>
+          <div class="sub">Revenue impact, retention opportunities, and executive recommendations</div>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-bottom:20px">
+        <div>
+          <div class="section-heading">Key Insights</div>
+          <div id="insights-list"></div>
+        </div>
+        <div>
+          <div class="section-heading">Executive Recommendations</div>
+          <div id="recommendations"></div>
+        </div>
+      </div>
+
+      <div class="grid-equal-4" id="bi-metrics"></div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+</div><!-- /app -->
+
+<script>
+/* ═══════════════════════════════════════════
+   DATA
+═══════════════════════════════════════════ */
+const MODELS = [
+  { name: 'Logistic Regression', acc: 81.2, prec: 79.8, rec: 77.4, f1: 78.6, roc: 0.847, best: true },
+  { name: 'Random Forest',       acc: 79.6, prec: 77.2, rec: 75.1, f1: 76.1, roc: 0.831, best: false },
+  { name: 'K-Nearest Neighbors', acc: 76.3, prec: 73.1, rec: 70.8, f1: 71.9, roc: 0.801, best: false },
+  { name: 'Naive Bayes',         acc: 74.8, prec: 71.5, rec: 72.3, f1: 71.9, roc: 0.788, best: false },
+  { name: 'Decision Tree',       acc: 72.1, prec: 68.4, rec: 69.2, f1: 68.8, roc: 0.754, best: false },
+];
+
+const FEATURES = [
+  { name: 'Contract Type',     val: 0.312, color: '#6366F1' },
+  { name: 'Tenure',            val: 0.278, color: '#8B5CF6' },
+  { name: 'Monthly Charges',   val: 0.241, color: '#EF4444' },
+  { name: 'Total Charges',     val: 0.198, color: '#F59E0B' },
+  { name: 'Internet Service',  val: 0.176, color: '#3B82F6' },
+  { name: 'Tech Support',      val: 0.154, color: '#22C55E' },
+  { name: 'Online Security',   val: 0.143, color: '#10B981' },
+  { name: 'Payment Method',    val: 0.121, color: '#6366F1' },
+  { name: 'Senior Citizen',    val: 0.098, color: '#A855F7' },
+  { name: 'Partner',           val: 0.076, color: '#EC4899' },
+];
+
+const INSIGHTS = [
+  { icon: '📋', title: 'Month-to-Month Contracts Are Highest Risk', text: 'Customers on month-to-month contracts churn at 42.7%, compared to 11.3% for annual and 2.9% for two-year contracts. Converting 10% of M2M customers saves ~$120K annually.', priority: 'Critical', bg: '#FEF2F2', ic: '#991B1B', dark_bg: 'rgba(239,68,68,0.1)' },
+  { icon: '⏱️', title: 'First 12 Months Are Critical', text: 'Churn rate drops from 47% in month 1 to 18% by month 12. Onboarding programs in the first 90 days could reduce early churn by an estimated 23%.', priority: 'High', bg: '#FFF7ED', ic: '#92400E', dark_bg: 'rgba(245,158,11,0.1)' },
+  { icon: '💰', title: 'High Monthly Charges Drive Churn', text: 'Customers paying >$85/mo churn at 33.4% vs 14.2% for those paying <$50/mo. Value perception interventions for high-spend customers could recover $340K.', priority: 'High', bg: '#FFF7ED', ic: '#92400E', dark_bg: 'rgba(245,158,11,0.1)' },
+  { icon: '🔒', title: 'Security Services Reduce Churn by 18%', text: 'Customers with Online Security subscriptions have 18% lower churn. Bundling security services as a free add-on for at-risk segments has a projected $210K retention value.', priority: 'Medium', bg: '#F0FDF4', ic: '#166534', dark_bg: 'rgba(34,197,94,0.1)' },
+];
+
+const RECS = [
+  { title: 'Launch Contract Migration Campaign', text: 'Offer month-to-month customers a 15% discount to switch to annual contracts. Target 500 customers identified by the ML model as high-risk.' },
+  { title: 'Implement 90-Day Onboarding Program', text: 'Assign a customer success manager to all new accounts for the first quarter. Proactive check-ins at days 7, 30, and 90.' },
+  { title: 'Bundle Security Add-ons for High-Risk Segments', text: 'Provide complimentary Online Security and Tech Support for At-Risk cluster customers for 6 months to increase perceived value.' },
+  { title: 'Deploy Real-Time Churn Alerting', text: 'Integrate ChurnIQ predictions into the CRM to trigger automated retention workflows when churn probability exceeds 60%.' },
+];
+
+/* ═══════════════════════════════════════════
+   COUNT-UP ANIMATION
+═══════════════════════════════════════════ */
+function countUp(el, target, suffix='', prefix='', duration=1800) {
+  const start = performance.now();
+  const isDecimal = String(target).includes('.');
+  function step(now) {
+    const progress = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 4);
+    const val = eased * target;
+    el.textContent = prefix + (isDecimal ? val.toFixed(1) : Math.round(val).toLocaleString()) + suffix;
+    if (progress < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+/* ═══════════════════════════════════════════
+   SPARKLINE GENERATOR
+═══════════════════════════════════════════ */
+function drawSparkline(svgId, data, color, fill) {
+  const svg = document.getElementById(svgId);
+  if (!svg) return;
+  const w = 64, h = 32;
+  const min = Math.min(...data), max = Math.max(...data);
+  const pts = data.map((v,i) => {
+    const x = (i / (data.length-1)) * w;
+    const y = h - ((v - min) / (max - min + 0.001)) * (h - 4) - 2;
+    return `${x},${y}`;
+  }).join(' ');
+
+  const pathD = `M ${pts.split(' ').join(' L ')}`;
+  const areaD = `M 0,${h} L ${pts.split(' ').join(' L ')} L ${w},${h} Z`;
+
+  svg.innerHTML = `
+    <defs>
+      <linearGradient id="grad-${svgId}" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="${color}" stop-opacity="0.3"/>
+        <stop offset="100%" stop-color="${color}" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    <path d="${areaD}" fill="url(#grad-${svgId})"/>
+    <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  `;
+}
+
+/* ═══════════════════════════════════════════
+   TREND LINE CHART
+═══════════════════════════════════════════ */
+function drawTrendChart() {
+  const svg = document.getElementById('trend-chart');
+  if (!svg) return;
+
+  const months = ['Jan','Feb','Mar','Apr','May','Jun'];
+  const churn =  [24.1, 25.3, 27.2, 25.8, 26.5, 24.9];
+  const retain = [75.9, 74.7, 72.8, 74.2, 73.5, 75.1];
+
+  const W=360, H=160, PL=32, PR=16, PT=10, PB=30;
+  const cw = W - PL - PR, ch = H - PT - PB;
+
+  const minV = 70, maxV = 80;
+  const scaleY = v => PT + ch - ((v - minV) / (maxV - minV)) * ch;
+  const scaleX = i => PL + (i / (months.length-1)) * cw;
+
+  const retPts = retain.map((v,i) => `${scaleX(i)},${scaleY(v)}`).join(' ');
+  const chuPts = churn.map((v,i) => `${scaleX(i)},${scaleY(v)}`).join(' ');
+
+  const retArea = `M ${PL},${PT+ch} L ${retain.map((v,i)=>`${scaleX(i)},${scaleY(v)}`).join(' L ')} L ${PL+cw},${PT+ch} Z`;
+  const chuArea = `M ${PL},${PT+ch} L ${churn.map((v,i)=>`${scaleX(i)},${scaleY(v)}`).join(' L ')} L ${PL+cw},${PT+ch} Z`;
+
+  const gridLines = [72,74,76,78,80].map(v =>
+    `<line x1="${PL}" y1="${scaleY(v)}" x2="${PL+cw}" y2="${scaleY(v)}" stroke="var(--border)" stroke-width="1" stroke-dasharray="3,3"/>
+     <text x="${PL-4}" y="${scaleY(v)+4}" font-size="9" fill="var(--text-4)" text-anchor="end">${v}%</text>`
+  ).join('');
+
+  const labels = months.map((m,i) =>
+    `<text x="${scaleX(i)}" y="${H-6}" font-size="9" fill="var(--text-4)" text-anchor="middle">${m}</text>`
+  ).join('');
+
+  svg.innerHTML = `
+    <defs>
+      <linearGradient id="ret-grad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#22C55E" stop-opacity="0.15"/>
+        <stop offset="100%" stop-color="#22C55E" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="chu-grad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#EF4444" stop-opacity="0.15"/>
+        <stop offset="100%" stop-color="#EF4444" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    ${gridLines}
+    <path d="${retArea}" fill="url(#ret-grad)"/>
+    <path d="${chuArea}" fill="url(#chu-grad)"/>
+    <polyline points="${retPts}" fill="none" stroke="#22C55E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="${chuPts}" fill="none" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    ${retain.map((v,i)=>`<circle cx="${scaleX(i)}" cy="${scaleY(v)}" r="3.5" fill="#22C55E"/>`).join('')}
+    ${churn.map((v,i)=>`<circle cx="${scaleX(i)}" cy="${scaleY(v)}" r="3.5" fill="#EF4444"/>`).join('')}
+    ${labels}
+    <rect x="${PL+cw-110}" y="${PT+4}" width="108" height="32" rx="6" fill="var(--surface)" stroke="var(--border)" stroke-width="1"/>
+    <circle cx="${PL+cw-102}" cy="${PT+14}" r="4" fill="#22C55E"/>
+    <text x="${PL+cw-96}" y="${PT+18}" font-size="9.5" fill="var(--text-3)" font-weight="600">Retained</text>
+    <circle cx="${PL+cw-102}" cy="${PT+26}" r="4" fill="#EF4444"/>
+    <text x="${PL+cw-96}" y="${PT+30}" font-size="9.5" fill="var(--text-3)" font-weight="600">Churned</text>
+  `;
+}
+
+/* ═══════════════════════════════════════════
+   DONUT CHART
+═══════════════════════════════════════════ */
+function drawDonut() {
+  const svg = document.getElementById('donut-chart');
+  if (!svg) return;
+
+  const cx=70, cy=70, r=55, ir=38;
+  const churnPct = 0.265;
+  const retainPct = 0.735;
+
+  function arcPath(startAngle, endAngle, outerR, innerR) {
+    const sa = (startAngle - 90) * Math.PI/180;
+    const ea = (endAngle - 90) * Math.PI/180;
+    const x1 = cx + outerR * Math.cos(sa);
+    const y1 = cy + outerR * Math.sin(sa);
+    const x2 = cx + outerR * Math.cos(ea);
+    const y2 = cy + outerR * Math.sin(ea);
+    const x3 = cx + innerR * Math.cos(ea);
+    const y3 = cy + innerR * Math.sin(ea);
+    const x4 = cx + innerR * Math.cos(sa);
+    const y4 = cy + innerR * Math.sin(sa);
+    const lg = endAngle - startAngle > 180 ? 1 : 0;
+    return `M ${x1} ${y1} A ${outerR} ${outerR} 0 ${lg} 1 ${x2} ${y2} L ${x3} ${y3} A ${innerR} ${innerR} 0 ${lg} 0 ${x4} ${y4} Z`;
+  }
+
+  const churnEnd = churnPct * 360;
+  svg.innerHTML = `
+    <defs>
+      <filter id="donut-shadow"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.15"/></filter>
+    </defs>
+    <path d="${arcPath(0, churnEnd, r, ir)}" fill="#EF4444" filter="url(#donut-shadow)"/>
+    <path d="${arcPath(churnEnd, 360, r, ir)}" fill="#22C55E" filter="url(#donut-shadow)"/>
+    <circle cx="${cx}" cy="${cy}" r="${ir-2}" fill="var(--surface)"/>
+    <text x="${cx}" y="${cy-4}" text-anchor="middle" font-size="16" font-weight="800" fill="#EF4444">26.5%</text>
+    <text x="${cx}" y="${cy+12}" text-anchor="middle" font-size="9" fill="var(--text-3)" font-weight="600">CHURN RATE</text>
+  `;
+}
+
+/* ═══════════════════════════════════════════
+   DRIVER BARS
+═══════════════════════════════════════════ */
+function buildDriverBars() {
+  const el = document.getElementById('driver-bars');
+  if (!el) return;
+  const drivers = FEATURES.slice(0, 5);
+  const max = drivers[0].val;
+  el.innerHTML = drivers.map(f => `
+    <div class="feat-row">
+      <span class="feat-name">${f.name}</span>
+      <div class="feat-bar-track">
+        <div class="feat-bar-fill" style="width:${Math.round(f.val/max*100)}%;background:linear-gradient(90deg,${f.color},${f.color}99)">
+          <span>${(f.val*100).toFixed(1)}%</span>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+/* ═══════════════════════════════════════════
+   MODEL TABLE & BARS
+═══════════════════════════════════════════ */
+function buildModels() {
+  const tbody = document.getElementById('model-tbody');
+  if (tbody) {
+    tbody.innerHTML = MODELS.map(m => `
+      <tr class="${m.best ? 'best-row' : ''}">
+        <td>
+          <div class="model-name">${m.name}</div>
+          ${m.best ? '<div style="font-size:10px;color:var(--indigo);font-weight:600;margin-top:2px">★ Recommended</div>' : ''}
+        </td>
+        <td>
+          <div class="acc-bar-wrap">
+            <div class="acc-track">
+              <div class="acc-fill" style="width:${(m.acc-60)*5}%"></div>
+            </div>
+            <span style="font-weight:800;font-size:13px;width:44px">${m.acc}%</span>
+          </div>
+        </td>
+        <td>${m.prec}%</td>
+        <td>${m.rec}%</td>
+        <td>${m.f1}%</td>
+        <td>${m.roc}</td>
+        <td>${m.best
+          ? '<span class="badge badge-emerald">✓ Best Model</span>'
+          : '<span class="badge badge-gray">—</span>'
+        }</td>
+      </tr>
+    `).join('');
+  }
+
+  const barsEl = document.getElementById('model-accuracy-bars');
+  if (barsEl) {
+    barsEl.innerHTML = MODELS.map(m => `
+      <div class="feat-row" style="margin-bottom:14px">
+        <span class="feat-name" style="width:180px">${m.name}</span>
+        <div class="feat-bar-track">
+          <div class="feat-bar-fill" style="width:${(m.acc-60)*5}%;background:${m.best
+            ? 'linear-gradient(90deg,#6366F1,#818CF8)'
+            : 'linear-gradient(90deg,#3B82F6,#60A5FA)'}">
+            <span>${m.acc}%</span>
+          </div>
+        </div>
+        ${m.best ? '<span class="badge badge-indigo" style="flex-shrink:0;white-space:nowrap">Best</span>' : ''}
+      </div>
+    `).join('');
+  }
+}
+
+/* ═══════════════════════════════════════════
+   FEATURE BARS (MAIN)
+═══════════════════════════════════════════ */
+function buildFeatureBars() {
+  const el = document.getElementById('feature-bars-main');
+  if (!el) return;
+  const max = FEATURES[0].val;
+  el.innerHTML = FEATURES.map(f => `
+    <div class="feat-row tooltip">
+      <span class="feat-name">${f.name}</span>
+      <div class="feat-bar-track">
+        <div class="feat-bar-fill" style="width:${Math.round(f.val/max*100)}%;background:linear-gradient(90deg,${f.color},${f.color}aa)">
+          <span>${(f.val*100).toFixed(1)}%</span>
+        </div>
+      </div>
+      <span class="feat-pct">${(f.val*100).toFixed(1)}%</span>
+      <span class="tooltip-text">Importance: ${f.val.toFixed(3)}</span>
+    </div>
+  `).join('');
+}
+
+/* ═══════════════════════════════════════════
+   ROC CURVE
+═══════════════════════════════════════════ */
+function drawROC() {
+  const svg = document.getElementById('roc-chart');
+  if (!svg) return;
+  const W=280, H=220, PL=36, PR=16, PT=16, PB=32;
+  const cw=W-PL-PR, ch=H-PT-PB;
+
+  // Synthetic ROC points for AUC=0.847
+  const pts = [[0,0],[0.05,0.38],[0.1,0.58],[0.2,0.72],[0.3,0.80],[0.4,0.86],[0.6,0.92],[0.8,0.96],[1,1]];
+  const sx = x => PL + x*cw;
+  const sy = y => PT + ch - y*ch;
+
+  const polyPts = pts.map(([x,y]) => `${sx(x)},${sy(y)}`).join(' ');
+  const areaPath = `M ${PL},${PT+ch} L ${pts.map(([x,y])=>`${sx(x)},${sy(y)}`).join(' L ')} L ${PL+cw},${PT+ch} Z`;
+
+  const grid = [0,0.2,0.4,0.6,0.8,1].map(v => `
+    <line x1="${PL}" y1="${sy(v)}" x2="${PL+cw}" y2="${sy(v)}" stroke="var(--border)" stroke-width="1" stroke-dasharray="3,3"/>
+    <line x1="${sx(v)}" y1="${PT}" x2="${sx(v)}" y2="${PT+ch}" stroke="var(--border)" stroke-width="1" stroke-dasharray="3,3"/>
+    <text x="${PL-4}" y="${sy(v)+4}" font-size="9" fill="var(--text-4)" text-anchor="end">${v.toFixed(1)}</text>
+    <text x="${sx(v)}" y="${PT+ch+14}" font-size="9" fill="var(--text-4)" text-anchor="middle">${v.toFixed(1)}</text>
+  `).join('');
+
+  svg.innerHTML = `
+    <defs>
+      <linearGradient id="roc-fill" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#6366F1" stop-opacity="0.25"/>
+        <stop offset="100%" stop-color="#6366F1" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    ${grid}
+    <line x1="${PL}" y1="${PT+ch}" x2="${PL+cw}" y2="${PT}" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="5,5"/>
+    <path d="${areaPath}" fill="url(#roc-fill)"/>
+    <polyline points="${polyPts}" fill="none" stroke="#6366F1" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    ${pts.map(([x,y])=>`<circle cx="${sx(x)}" cy="${sy(y)}" r="3" fill="#6366F1"/>`).join('')}
+    <text x="${PL+cw/2-10}" y="${PT+16}" font-size="10" fill="var(--text-3)" font-weight="700">FPR →</text>
+    <text x="${PL+8}" y="${PT+4}" font-size="10" fill="var(--text-3)" font-weight="700">TPR</text>
+    <rect x="${PL+cw-70}" y="${PT+30}" width="68" height="24" rx="5" fill="var(--surface)" stroke="var(--border)"/>
+    <text x="${PL+cw-36}" y="${PT+46}" font-size="10" fill="var(--indigo)" font-weight="800" text-anchor="middle">AUC = 0.847</text>
+  `;
+}
+
+/* ═══════════════════════════════════════════
+   CONFUSION MATRIX
+═══════════════════════════════════════════ */
+function buildConfusionMatrix() {
+  const el = document.getElementById('confusion-matrix-wrap');
+  if (!el) return;
+  el.innerHTML = `
+    <div>
+      <div style="text-align:center;font-size:11px;font-weight:700;color:var(--text-3);margin-bottom:8px;letter-spacing:0.5px">PREDICTED</div>
+      <div class="confusion-matrix">
+        <div class="cm-label"></div>
+        <div class="cm-label" style="font-size:12px">Retained</div>
+        <div class="cm-label" style="font-size:12px">Churned</div>
+        <div class="cm-label" style="font-size:12px;writing-mode:vertical-rl;transform:rotate(180deg);white-space:nowrap">ACTUAL</div>
+        <div class="cm-cell" style="background:rgba(34,197,94,0.15)">
+          <div class="cm-val" style="color:#15803D;font-size:28px">3,891</div>
+          <div class="cm-sub" style="color:#15803D">True Negative</div>
+        </div>
+        <div class="cm-cell" style="background:rgba(239,68,68,0.1)">
+          <div class="cm-val" style="color:var(--red);font-size:28px">283</div>
+          <div class="cm-sub" style="color:var(--red)">False Positive</div>
+        </div>
+        <div class="cm-label"></div>
+        <div class="cm-cell" style="background:rgba(239,68,68,0.1)">
+          <div class="cm-val" style="color:var(--red);font-size:28px">419</div>
+          <div class="cm-sub" style="color:var(--red)">False Negative</div>
+        </div>
+        <div class="cm-cell" style="background:rgba(99,102,241,0.12)">
+          <div class="cm-val" style="color:var(--indigo);font-size:28px">1,450</div>
+          <div class="cm-sub" style="color:var(--indigo)">True Positive</div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/* ═══════════════════════════════════════════
+   RETENTION FUNNEL
+═══════════════════════════════════════════ */
+function buildFunnel() {
+  const el = document.getElementById('funnel-chart');
+  if (!el) return;
+  const stages = [
+    { label: 'Total Customers', count: '7,043', pct: 100, color: '#6366F1' },
+    { label: 'Contacted for Retention', count: '3,200', pct: 74, color: '#8B5CF6' },
+    { label: 'Responded Positively', count: '1,860', pct: 52, color: '#3B82F6' },
+    { label: 'Offer Accepted', count: '1,240', pct: 35, color: '#22C55E' },
+    { label: 'Successfully Retained', count: '980', pct: 25, color: '#10B981' },
+  ];
+  el.innerHTML = stages.map(s => `
+    <div class="funnel-stage">
+      <span class="funnel-label">${s.label}</span>
+      <div class="funnel-bar-wrap">
+        <div class="funnel-bar" style="width:${s.pct}%;background:${s.color};min-width:60px">${s.pct}%</div>
+      </div>
+      <span class="funnel-count">${s.count}</span>
+    </div>
+  `).join('');
+}
+
+/* ═══════════════════════════════════════════
+   CONTRACT ANALYSIS
+═══════════════════════════════════════════ */
+function buildContractChart() {
+  const el = document.getElementById('contract-chart');
+  if (!el) return;
+  const contracts = [
+    { label: 'Month-to-Month', pct: 42.7, color: '#EF4444', count: '3,875 customers' },
+    { label: 'One Year',       pct: 11.3, color: '#F59E0B', count: '1,473 customers' },
+    { label: 'Two Year',       pct: 2.9,  color: '#22C55E', count: '1,695 customers' },
+  ];
+  el.innerHTML = contracts.map(c => `
+    <div class="contract-bar">
+      <div>
+        <div class="contract-label">${c.label}</div>
+        <div style="font-size:10px;color:var(--text-4)">${c.count}</div>
+      </div>
+      <div class="contract-track">
+        <div class="contract-fill" style="width:${c.pct/45*100}%;background:${c.color}">${c.pct}%</div>
+      </div>
+      <span class="contract-pct" style="color:${c.color}">${c.pct}%</span>
+    </div>
+  `).join('');
+}
+
+/* ═══════════════════════════════════════════
+   SEGMENTS
+═══════════════════════════════════════════ */
+function buildSegments() {
+  const el = document.getElementById('seg-cards');
+  if (!el) return;
+  const segs = [
+    {
+      icon: '🏆', title: 'Loyal Customers', cluster: 'Cluster 0 · Low Risk',
+      count: '3,284', pct: 46.6, barColor: '#22C55E',
+      stats: [
+        {k:'Avg Tenure', v:'42 months', c:''},
+        {k:'Avg Monthly Charges', v:'$47.20', c:''},
+        {k:'Churn Rate', v:'4.2%', c:'color:#22C55E'},
+        {k:'Contract Type', v:'Annual/2yr', c:''},
+      ]
+    },
+    {
+      icon: '⚠️', title: 'At-Risk Customers', cluster: 'Cluster 1 · High Risk',
+      count: '2,186', pct: 31.0, barColor: '#EF4444',
+      stats: [
+        {k:'Avg Tenure', v:'8 months', c:''},
+        {k:'Avg Monthly Charges', v:'$88.40', c:''},
+        {k:'Churn Rate', v:'58.3%', c:'color:#EF4444'},
+        {k:'Contract Type', v:'Month-to-Month', c:''},
+      ]
+    },
+    {
+      icon: '✨', title: 'New Customers', cluster: 'Cluster 2 · Medium Risk',
+      count: '1,573', pct: 22.3, barColor: '#F59E0B',
+      stats: [
+        {k:'Avg Tenure', v:'3 months', c:''},
+        {k:'Avg Monthly Charges', v:'$62.80', c:''},
+        {k:'Churn Rate', v:'28.7%', c:'color:#F59E0B'},
+        {k:'Contract Type', v:'Mixed', c:''},
+      ]
+    },
+  ];
+
+  el.innerHTML = segs.map(s => `
+    <div class="seg-card">
+      <div class="seg-icon" style="background:${s.barColor}18;font-size:22px">${s.icon}</div>
+      <div class="seg-title">${s.title}</div>
+      <div style="font-size:11px;color:var(--text-3);margin-top:2px">${s.cluster}</div>
+      <div class="seg-count" style="color:${s.barColor}">${s.count}</div>
+      <div class="seg-bar-track"><div class="seg-bar-fill" style="width:${s.pct}%;background:${s.barColor}"></div></div>
+      ${s.stats.map(st=>`
+        <div class="seg-stat">
+          <span class="seg-stat-k">${st.k}</span>
+          <span class="seg-stat-v" style="${st.c}">${st.v}</span>
+        </div>
+      `).join('')}
+    </div>
+  `).join('');
+}
+
+/* ═══════════════════════════════════════════
+   SCATTER PLOT
+═══════════════════════════════════════════ */
+function drawScatter() {
+  const svg = document.getElementById('scatter-plot');
+  if (!svg) return;
+
+  const W=600, H=280, PL=50, PR=20, PT=20, PB=40;
+  const cw=W-PL-PR, ch=H-PT-PB;
+
+  // Synthetic cluster data [tenure, monthly_charges, cluster]
+  const points = [];
+  const clusters = [
+    { count:80, tRange:[30,72], mRange:[30,65], color:'#22C55E', label:'Loyal' },
+    { count:60, tRange:[0,15],  mRange:[65,100], color:'#EF4444', label:'At-Risk' },
+    { count:50, tRange:[1,10],  mRange:[45,75], color:'#F59E0B', label:'New' },
+  ];
+  clusters.forEach((cl,ci) => {
+    for(let i=0;i<cl.count;i++) {
+      points.push({
+        t: cl.tRange[0] + Math.random()*(cl.tRange[1]-cl.tRange[0]),
+        m: cl.mRange[0] + Math.random()*(cl.mRange[1]-cl.mRange[0]),
+        c: ci, color: cl.color
+      });
+    }
+  });
+
+  const sx = t => PL + (t/72)*cw;
+  const sy = m => PT + ch - ((m-20)/(110-20))*ch;
+
+  const grid = [0,20,40,60].map(v=>
+    `<line x1="${PL}" y1="${sy(v+20)}" x2="${PL+cw}" y2="${sy(v+20)}" stroke="var(--border)" stroke-width="1" stroke-dasharray="3,3"/>
+     <text x="${PL-6}" y="${sy(v+20)+4}" font-size="9" fill="var(--text-4)" text-anchor="end">$${v+20}</text>`
+  ).join('');
+
+  const xLabels = [0,12,24,36,48,60,72].map(v=>
+    `<text x="${sx(v)}" y="${PT+ch+16}" font-size="9" fill="var(--text-4)" text-anchor="middle">${v}mo</text>`
+  ).join('');
+
+  const dots = points.map(p=>
+    `<circle cx="${sx(p.t)}" cy="${sy(p.m)}" r="4" fill="${p.color}" fill-opacity="0.7" stroke="${p.color}" stroke-width="1"/>`
+  ).join('');
+
+  const legend = clusters.map((cl,i)=>
+    `<circle cx="${PL+20+i*90}" cy="${PT+ch+34}" r="5" fill="${cl.color}"/>
+     <text x="${PL+29+i*90}" y="${PT+ch+38}" font-size="10" fill="var(--text-3)" font-weight="600">${cl.label}</text>`
+  ).join('');
+
+  svg.innerHTML = `
+    ${grid}
+    ${dots}
+    ${xLabels}
+    ${legend}
+    <text x="${PL+cw/2}" y="${PT+ch+28}" font-size="10" fill="var(--text-4)" text-anchor="middle">Tenure (months)</text>
+    <text x="14" y="${PT+ch/2}" font-size="10" fill="var(--text-4)" text-anchor="middle" transform="rotate(-90,14,${PT+ch/2})">Monthly Charges ($)</text>
+  `;
+}
+
+/* ═══════════════════════════════════════════
+   INSIGHTS & RECS
+═══════════════════════════════════════════ */
+function buildInsights() {
+  const el = document.getElementById('insights-list');
+  if (el) {
+    el.innerHTML = INSIGHTS.map(ins => `
+      <div class="insight-card">
+        <div class="insight-icon" style="background:var(--surface-3)">${ins.icon}</div>
+        <div>
+          <div class="insight-title">${ins.title}
+            <span class="badge ${ins.priority==='Critical'?'badge-red':'badge-amber'}" style="margin-left:6px;vertical-align:middle">${ins.priority}</span>
+          </div>
+          <div class="insight-text">${ins.text}</div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  const rel = document.getElementById('recommendations');
+  if (rel) {
+    rel.innerHTML = RECS.map((r,i) => `
+      <div class="rec-card">
+        <div class="rec-num">${i+1}</div>
+        <div>
+          <div class="rec-title">${r.title}</div>
+          <div class="rec-text">${r.text}</div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  const biel = document.getElementById('bi-metrics');
+  if (biel) {
+    const biData = [
+      { label: 'Revenue at Risk', val: '$1.2M', color: 'var(--red)', icon: '📉', sub: 'Monthly recurring' },
+      { label: 'Retention Opportunity', val: '$0.9M', color: 'var(--emerald)', icon: '💡', sub: 'Recoverable revenue' },
+      { label: 'Churn Hotspot', val: 'M2M + Fiber', color: 'var(--amber)', icon: '🔥', sub: '42.7% churn rate' },
+      { label: 'Confidence Score', val: '81.2%', color: 'var(--indigo)', icon: '🎯', sub: 'Model accuracy' },
+    ];
+    biel.innerHTML = biData.map(b => `
+      <div class="card" style="margin-bottom:0;text-align:center">
+        <div style="font-size:28px;margin-bottom:8px">${b.icon}</div>
+        <div style="font-size:11px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">${b.label}</div>
+        <div style="font-size:22px;font-weight:900;color:${b.color};letter-spacing:-0.5px">${b.val}</div>
+        <div style="font-size:11px;color:var(--text-4);margin-top:4px">${b.sub}</div>
+      </div>
+    `).join('');
+  }
+}
+
+/* ═══════════════════════════════════════════
+   GAUGE
+═══════════════════════════════════════════ */
+function drawGauge(pct) {
+  const svg = document.getElementById('gauge-svg');
+  if (!svg) return;
+
+  const cx=110, cy=115, r=90, strokeW=18;
+  const angle = -180 + pct*180;
+  const toRad = d => d * Math.PI/180;
+
+  function describeArc(startDeg, endDeg) {
+    const start = toRad(startDeg - 90);
+    const end = toRad(endDeg - 90);
+    const x1=cx+r*Math.cos(start), y1=cy+r*Math.sin(start);
+    const x2=cx+r*Math.cos(end), y2=cy+r*Math.sin(end);
+    const lg = endDeg-startDeg > 180 ? 1 : 0;
+    return `M ${x1} ${y1} A ${r} ${r} 0 ${lg} 1 ${x2} ${y2}`;
+  }
+
+  const color = pct < 0.35 ? '#22C55E' : pct < 0.65 ? '#F59E0B' : '#EF4444';
+  const nPt = toRad(angle - 90);
+  const nx = cx + (r-strokeW-10)*Math.cos(nPt);
+  const ny = cy + (r-strokeW-10)*Math.sin(nPt);
+
+  svg.innerHTML = `
+    <defs>
+      <linearGradient id="gauge-track-grad" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#22C55E"/>
+        <stop offset="50%" stop-color="#F59E0B"/>
+        <stop offset="100%" stop-color="#EF4444"/>
+      </linearGradient>
+    </defs>
+    <path d="${describeArc(-180, 0)}" fill="none" stroke="var(--surface-2)" stroke-width="${strokeW}" stroke-linecap="round"/>
+    <path d="${describeArc(-180, -180+pct*180)}" fill="none" stroke="${color}" stroke-width="${strokeW}" stroke-linecap="round" style="transition:all 0.8s ease"/>
+    <text x="18" y="${cy+12}" font-size="10" fill="var(--emerald)" font-weight="700">LOW</text>
+    <text x="${cx-12}" y="${cy-r+8}" font-size="10" fill="var(--amber)" font-weight="700">MED</text>
+    <text x="${cx*2-44}" y="${cy+12}" font-size="10" fill="var(--red)" font-weight="700">HIGH</text>
+    <line x1="${cx}" y1="${cy}" x2="${nx}" y2="${ny}" stroke="${color}" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="${cx}" cy="${cy}" r="6" fill="${color}"/>
+  `;
+}
+
+/* ═══════════════════════════════════════════
+   PREDICTION ENGINE
+═══════════════════════════════════════════ */
+function predictChurn() {
+  const contract = parseInt(document.getElementById('p-contract').value);
+  const tenure   = parseFloat(document.getElementById('p-tenure').value) || 0;
+  const monthly  = parseFloat(document.getElementById('p-monthly').value) || 0;
+  const internet = parseInt(document.getElementById('p-internet').value);
+  const senior   = parseInt(document.getElementById('p-senior').value);
+  const tech     = parseInt(document.getElementById('p-tech').value);
+  const security = parseInt(document.getElementById('p-security').value);
+  const partner  = parseInt(document.getElementById('p-partner').value);
+  const dep      = parseInt(document.getElementById('p-dep').value);
+  const paperless= parseInt(document.getElementById('p-paperless').value);
+
+  let score = 0;
+  if (contract === 0) score += 0.32;
+  if (contract === 1) score += 0.08;
+  if (tenure < 3)         score += 0.28;
+  else if (tenure < 12)   score += 0.18;
+  else if (tenure < 24)   score += 0.07;
+  else if (tenure > 48)   score -= 0.18;
+  if (monthly > 85)       score += 0.22;
+  else if (monthly > 65)  score += 0.12;
+  else if (monthly < 30)  score -= 0.12;
+  if (internet === 0)     score += 0.10;
+  if (senior === 1)       score += 0.09;
+  if (tech === 0)         score += 0.08;
+  if (security === 0)     score += 0.07;
+  if (partner === 0)      score += 0.05;
+  if (dep === 0)          score += 0.03;
+  if (paperless === 1)    score += 0.04;
+
+  const churnProb = Math.min(0.97, Math.max(0.03, 0.12 + score));
+  const stayProb  = 1 - churnProb;
+  const churnPct  = Math.round(churnProb * 100);
+  const stayPct   = Math.round(stayProb * 100);
+
+  const riskLevel = churnProb < 0.35 ? 'low' : churnProb < 0.65 ? 'medium' : 'high';
+  const riskLabel = riskLevel === 'low' ? '✓ Low Risk' : riskLevel === 'medium' ? '⚠ Medium Risk' : '✗ High Risk';
+
+  // Show result
+  document.getElementById('result-placeholder').style.display = 'none';
+  document.getElementById('result-content').style.display = 'block';
+
+  const badge = document.getElementById('model-badge');
+  badge.textContent = 'Log. Regression · 81.2% accuracy';
+  badge.className = 'badge badge-indigo';
+
+  document.getElementById('gauge-pct').textContent = churnPct + '%';
+  const riskBadge = document.getElementById('risk-badge-el');
+  riskBadge.textContent = riskLabel;
+  riskBadge.className = `risk-badge risk-${riskLevel}`;
+
+  document.getElementById('stay-pct').textContent  = stayPct + '%';
+  document.getElementById('churn-pct').textContent = churnPct + '%';
+
+  drawGauge(churnProb);
+
+  const actionEl = document.getElementById('r-action');
+  if (riskLevel === 'high') {
+    actionEl.style.background = 'var(--red-50)';
+    actionEl.style.color = '#991B1B';
+    actionEl.innerHTML = '<span style="font-size:18px">🚨</span> <span><strong>Immediate action required.</strong> Assign a retention specialist, offer a contract upgrade or loyalty discount within 48 hours.</span>';
+  } else if (riskLevel === 'medium') {
+    actionEl.style.background = 'var(--amber-50)';
+    actionEl.style.color = '#92400E';
+    actionEl.innerHTML = '<span style="font-size:18px">⚠️</span> <span><strong>Monitor closely.</strong> Schedule a proactive check-in and consider bundling security add-ons.</span>';
+  } else {
+    actionEl.style.background = 'var(--emerald-50)';
+    actionEl.style.color = '#15803D';
+    actionEl.innerHTML = '<span style="font-size:18px">✅</span> <span><strong>No immediate action needed.</strong> Customer shows strong retention signals. Continue standard service quality.</span>';
+  }
+
+  // SHAP
+  const factors = [
+    { name: 'Contract Type', impact: contract===0?0.32:contract===1?0.08:-0.10, positive: contract===0 },
+    { name: 'Tenure', impact: tenure<3?0.28:tenure<12?0.18:tenure>48?-0.18:0.07, positive: tenure<24 },
+    { name: 'Monthly Charges', impact: monthly>85?0.22:monthly>65?0.12:monthly<30?-0.12:0.02, positive: monthly>50 },
+    { name: 'Internet Service', impact: internet===0?0.10:internet===1?0.02:-0.05, positive: internet===0 },
+    { name: 'Tech Support', impact: tech===0?0.08:-0.06, positive: tech===0 },
+    { name: 'Online Security', impact: security===0?0.07:-0.05, positive: security===0 },
+  ].sort((a,b) => Math.abs(b.impact)-Math.abs(a.impact));
+
+  const maxImpact = Math.max(...factors.map(f=>Math.abs(f.impact)));
+  const shapEl = document.getElementById('shap-content');
+  shapEl.innerHTML = `
+    <div style="margin-bottom:10px">
+      <div style="font-size:11px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px">Factor Analysis (SHAP Values)</div>
+      ${factors.map(f=>`
+        <div class="shap-row">
+          <span class="shap-name">${f.name}</span>
+          <div class="shap-track">
+            <div class="shap-fill" style="width:${Math.abs(f.impact)/maxImpact*100}%;background:${f.positive?'#EF4444':'#22C55E'}"></div>
+          </div>
+          <span class="shap-val" style="color:${f.positive?'#EF4444':'#22C55E'}">${f.impact>0?'+':''}${f.impact.toFixed(3)}</span>
+        </div>
+      `).join('')}
+      <div style="margin-top:12px;padding:10px;background:var(--surface-2);border-radius:8px;font-size:11px;color:var(--text-3)">
+        <strong style="color:var(--text)">Red bars</strong> increase churn risk · <strong style="color:var(--text)">Green bars</strong> reduce churn risk
+      </div>
+    </div>
+  `;
+
+  // Push live notification
+  const contractLabels = ['Month-to-Month', 'One Year', 'Two Year'];
+  addPredictionNotification(churnPct, stayPct, riskLevel, contractLabels[contract], tenure, monthly);
+}
+
+/* ═══════════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════════ */
+function showPanel(name, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  btn.classList.add('active');
+  closeNotifications();
+}
+
+/* ═══════════════════════════════════════════
+   SIDEBAR SEARCH / FILTER
+═══════════════════════════════════════════ */
+const NAV_ITEMS_DATA = [
+  { id: 'nav-overview',  panel: 'overview',  label: 'Overview',          cat: 'Analytics' },
+  { id: 'nav-predict',   panel: 'predict',   label: 'Predict Customer',  cat: 'Analytics' },
+  { id: 'nav-models',    panel: 'models',    label: 'Model Comparison',  cat: 'Models' },
+  { id: 'nav-features',  panel: 'features',  label: 'Feature Importance',cat: 'Models' },
+  { id: 'nav-advanced',  panel: 'advanced',  label: 'Advanced Charts',   cat: 'Models' },
+  { id: 'nav-segments',  panel: 'segments',  label: 'Segments',          cat: 'Customers' },
+  { id: 'nav-insights',  panel: 'insights',  label: 'Business Insights', cat: 'Customers' },
+];
+
+function filterNav(query) {
+  const q = query.toLowerCase().trim();
+  NAV_ITEMS_DATA.forEach(item => {
+    const el = document.getElementById(item.id);
+    if (!el) return;
+    const match = !q || item.label.toLowerCase().includes(q) || item.cat.toLowerCase().includes(q);
+    el.classList.toggle('hidden', !match);
+  });
+  // Show/hide section labels
+  document.querySelectorAll('.nav-section').forEach(sec => {
+    const nextItems = [];
+    let sibling = sec.nextElementSibling;
+    while (sibling && !sibling.classList.contains('nav-section')) {
+      if (sibling.classList.contains('nav-item')) nextItems.push(sibling);
+      sibling = sibling.nextElementSibling;
+    }
+    const anyVisible = nextItems.some(el => !el.classList.contains('hidden'));
+    sec.style.display = anyVisible ? '' : 'none';
+  });
+}
+
+/* ═══════════════════════════════════════════
+   SEARCH MODAL
+═══════════════════════════════════════════ */
+let searchFocusIdx = -1;
+
+function openSearchModal() {
+  document.getElementById('search-modal').classList.add('open');
+  setTimeout(() => document.getElementById('search-modal-input').focus(), 50);
+  runSearch('');
+}
+
+function closeSearchModal(e) {
+  if (!e || e.target === document.getElementById('search-modal')) {
+    document.getElementById('search-modal').classList.remove('open');
+    document.getElementById('search-modal-input').value = '';
+    searchFocusIdx = -1;
+  }
+}
+
+document.addEventListener('keydown', (e) => {
+  if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); openSearchModal(); }
+  if (e.key === 'Escape') closeSearchModal({ target: document.getElementById('search-modal') });
+});
+
+function runSearch(q) {
+  const list = document.getElementById('search-results');
+  const items = NAV_ITEMS_DATA.filter(i => !q || i.label.toLowerCase().includes(q.toLowerCase()) || i.cat.toLowerCase().includes(q.toLowerCase()));
+  if (!items.length) {
+    list.innerHTML = `<div class="search-empty">No results for "<strong>${q}</strong>"</div>`;
+    return;
+  }
+  list.innerHTML = items.map((item, idx) => `
+    <div class="search-result-item" data-panel="${item.panel}" onclick="goToPanel('${item.panel}')">
+      <div class="search-result-icon">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/></svg>
+      </div>
+      <div>
+        <div class="search-result-name">${item.label}</div>
+        <div class="search-result-cat">${item.cat}</div>
+      </div>
+      <span class="search-result-shortcut">↵ Open</span>
+    </div>
+  `).join('');
+  searchFocusIdx = -1;
+}
+
+function goToPanel(name) {
+  const navBtn = document.getElementById('nav-' + name);
+  if (navBtn) { showPanel(name, navBtn); }
+  closeSearchModal({ target: document.getElementById('search-modal') });
+}
+
+function searchKeyNav(e) {
+  const items = document.querySelectorAll('#search-results .search-result-item');
+  if (e.key === 'ArrowDown') { searchFocusIdx = Math.min(searchFocusIdx + 1, items.length - 1); }
+  else if (e.key === 'ArrowUp') { searchFocusIdx = Math.max(searchFocusIdx - 1, 0); }
+  else if (e.key === 'Enter' && searchFocusIdx >= 0) { items[searchFocusIdx]?.click(); return; }
+  else if (e.key === 'Enter' && items.length > 0) { items[0]?.click(); return; }
+  items.forEach((el, i) => el.classList.toggle('focused', i === searchFocusIdx));
+  if (searchFocusIdx >= 0) items[searchFocusIdx]?.scrollIntoView({ block: 'nearest' });
+}
+
+/* ═══════════════════════════════════════════
+   NOTIFICATIONS
+═══════════════════════════════════════════ */
+let unreadCount = 0;
+let notifHistory = [];
+
+function addPredictionNotification(churnPct, stayPct, riskLevel, contract, tenure, monthly) {
+  const now = new Date();
+  const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+  const config = {
+    high:   { icon: '🚨', bg: 'var(--red-50)',    title: `High Churn Risk — ${churnPct}% probability`, body: `Contract: ${contract} · Tenure: ${tenure}mo · $${monthly}/mo. Immediate retention action recommended.` },
+    medium: { icon: '⚠️', bg: 'var(--amber-50)', title: `Medium Risk — ${churnPct}% churn probability`, body: `Contract: ${contract} · Tenure: ${tenure}mo · $${monthly}/mo. Schedule a proactive check-in.` },
+    low:    { icon: '✅', bg: 'var(--emerald-50)', title: `Low Risk — ${churnPct}% churn probability`, body: `Contract: ${contract} · Tenure: ${tenure}mo · $${monthly}/mo. Customer shows strong retention signals.` },
+  }[riskLevel];
+
+  notifHistory.unshift({ ...config, time: timeStr, unread: true });
+  unreadCount++;
+  renderNotifications();
+  updateNotifBadge();
+
+  // Flash the bell
+  const btn = document.getElementById('notif-btn');
+  btn.style.transform = 'scale(1.25)';
+  setTimeout(() => { btn.style.transform = ''; }, 300);
+}
+
+function renderNotifications() {
+  const list = document.getElementById('notif-list');
+  const empty = document.getElementById('notif-empty');
+  if (!notifHistory.length) {
+    if (empty) empty.style.display = 'block';
+    return;
+  }
+  if (empty) empty.style.display = 'none';
+
+  list.innerHTML = notifHistory.map((n, i) => `
+    <div class="notif-item ${n.unread ? 'unread' : ''}" onclick="markReadByIndex(${i})">
+      <div class="notif-dot-icon" style="background:${n.bg}">${n.icon}</div>
+      <div>
+        <div class="notif-text-title">${n.title}</div>
+        <div class="notif-text-body">${n.body}</div>
+        <div class="notif-time">Today at ${n.time}</div>
+      </div>
+    </div>
+  `).join('') + `<div id="notif-empty" style="display:none"></div>`;
+}
+
+function toggleNotifications() {
+  const dd = document.getElementById('notif-dropdown');
+  dd.classList.toggle('open');
+}
+
+function closeNotifications() {
+  document.getElementById('notif-dropdown').classList.remove('open');
+}
+
+function markRead(item) {
+  if (item.classList.contains('unread')) {
+    item.classList.remove('unread');
+    unreadCount = Math.max(0, unreadCount - 1);
+    updateNotifBadge();
+  }
+}
+
+function markReadByIndex(i) {
+  if (notifHistory[i] && notifHistory[i].unread) {
+    notifHistory[i].unread = false;
+    unreadCount = Math.max(0, unreadCount - 1);
+    renderNotifications();
+    updateNotifBadge();
+  }
+}
+
+function markAllRead() {
+  notifHistory.forEach(n => n.unread = false);
+  unreadCount = 0;
+  renderNotifications();
+  updateNotifBadge();
+}
+
+function updateNotifBadge() {
+  const dot = document.getElementById('notif-dot');
+  const badge = document.getElementById('notif-count-badge');
+  if (dot)   dot.style.display   = unreadCount > 0 ? 'block' : 'none';
+  if (badge) {
+    badge.textContent   = unreadCount;
+    badge.style.display = unreadCount > 0 ? 'inline' : 'none';
+  }
+}
+
+// Close notifications on outside click
+document.addEventListener('click', (e) => {
+  const wrapper = document.querySelector('.notif-wrapper');
+  if (wrapper && !wrapper.contains(e.target)) closeNotifications();
+});
+
+/* ═══════════════════════════════════════════
+   EXPORT PDF
+═══════════════════════════════════════════ */
+function exportPDF() {
+  const btn = document.querySelector('.btn-export');
+  const orig = btn.innerHTML;
+  btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Preparing…`;
+  btn.disabled = true;
+  setTimeout(() => {
+    window.print();
+    btn.innerHTML = orig;
+    btn.disabled = false;
+  }, 400);
+}
+
+/* ═══════════════════════════════════════════
+   DYNAMIC GREETING
+═══════════════════════════════════════════ */
+function setDynamicGreeting() {
+  // Greeting is now a professional static title — no override needed
+}
+
+/* ═══════════════════════════════════════════
+   RESET PREDICTION
+═══════════════════════════════════════════ */
+function resetPrediction() {
+  // Reset form fields to defaults
+  document.getElementById('p-contract').value = '0';
+  document.getElementById('p-tenure').value = '';
+  document.getElementById('p-monthly').value = '';
+  document.getElementById('p-internet').value = '0';
+  document.getElementById('p-senior').value = '0';
+  document.getElementById('p-tech').value = '0';
+  document.getElementById('p-security').value = '0';
+  document.getElementById('p-partner').value = '0';
+  document.getElementById('p-dep').value = '0';
+  document.getElementById('p-paperless').value = '1';
+
+  // Hide result, show placeholder
+  document.getElementById('result-placeholder').style.display = 'block';
+  document.getElementById('result-content').style.display = 'none';
+
+  // Reset badge
+  const badge = document.getElementById('model-badge');
+  badge.textContent = 'Awaiting input';
+  badge.className = 'badge badge-gray';
+
+  // Reset SHAP panel
+  document.getElementById('shap-content').style.color = 'var(--text-3)';
+  document.getElementById('shap-content').style.fontSize = '13px';
+  document.getElementById('shap-content').style.padding = '20px';
+  document.getElementById('shap-content').style.textAlign = 'center';
+  document.getElementById('shap-content').innerHTML = 'Run prediction to see factor analysis';
+
+  // Reset gauge
+  drawGauge(0);
+}
+
+/* ═══════════════════════════════════════════
+   DARK MODE
+═══════════════════════════════════════════ */
+function toggleDark() {
+  const html = document.documentElement;
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  const icon = document.getElementById('dark-icon');
+  if (!isDark) {
+    icon.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+  } else {
+    icon.innerHTML = '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
+  }
+  // Redraw charts for new theme colors
+  setTimeout(() => { drawTrendChart(); drawROC(); }, 100);
+}
+
+/* ═══════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════ */
+window.addEventListener('DOMContentLoaded', () => {
+  setDynamicGreeting();
+  // KPI count-ups
+  countUp(document.getElementById('kpi-customers'), 7043);
+  setTimeout(() => countUp(document.getElementById('kpi-churn'), 26.5, '%'), 150);
+  setTimeout(() => countUp(document.getElementById('kpi-revenue'), 1.2, 'M', '$'), 300);
+  setTimeout(() => countUp(document.getElementById('kpi-accuracy'), 81.2, '%'), 450);
+  setTimeout(() => countUp(document.getElementById('kpi-segments'), 3), 600);
+
+  // Sparklines
+  drawSparkline('spark-1', [6800,6900,6950,7000,7020,7043], '#6366F1');
+  drawSparkline('spark-2', [23.1,24.5,25.8,26.0,26.5,26.5], '#EF4444');
+  drawSparkline('spark-3', [0.9,1.0,1.1,1.1,1.2,1.2], '#F59E0B');
+  drawSparkline('spark-4', [78.4,79.1,80.2,80.5,81.0,81.2], '#22C55E');
+  drawSparkline('spark-5', [3,3,3,3,3,3], '#A855F7');
+
+  // Charts
+  drawTrendChart();
+  drawDonut();
+  buildDriverBars();
+  buildModels();
+  buildFeatureBars();
+  drawROC();
+  buildConfusionMatrix();
+  buildFunnel();
+  buildContractChart();
+  buildSegments();
+  drawScatter();
+  buildInsights();
+  drawGauge(0);
+});
+</script>
+</body>
+</html>
